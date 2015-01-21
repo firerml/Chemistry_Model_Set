@@ -44,6 +44,7 @@ var SingleBond = function(atom, holeNum) {
   this.bondHead = new THREE.Mesh( new THREE.CylinderGeometry(2, 2, 4, 32), new THREE.MeshPhongMaterial({color: 0xD3D3D3}));
   App.bondHeads.push(this.bondHead);
   this.bond = new THREE.Object3D();
+  this.bondBody.pieceName = 'single bond body'
   this.bond.add(this.bondBody, this.bondHead);
   this.bond.position.fromArray(atom.position.toArray());
   // this.bond.rotation.fromArray(atom.rotation.toArray());

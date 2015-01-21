@@ -25,9 +25,7 @@ $(function() {
   // Event listeners
   App.renderer.domElement.addEventListener('mousemove', onHover);
   App.renderer.domElement.addEventListener('mousedown', onClick);
-  App.renderer.domElement.addEventListener('mouseup', function() {
-    App.clicked = false;
-  });
+  App.renderer.domElement.addEventListener('mouseup', onMouseUp);
 
   setLights(App.scene);
 
@@ -39,6 +37,11 @@ $(function() {
   App.scene.add(App.molecule);
   render();
 });
+
+function onMouseUp() {
+  clearInterval(App.bondRotationTimer);
+  App.clicked = false;
+}
 
 function setLights() {
   var makeLight = function(intensity,x,y,z) {
@@ -97,6 +100,7 @@ function onHover(event) {
 function onClick(event) {
   App.clicked = true;
   var clickedObj = getMouseObject(event);
+
   // Uncomment this to see face indexes on click
   // console.log(clickedObj.faceIndex);
   // If clickedObj is a bondHead
@@ -106,8 +110,14 @@ function onClick(event) {
     newAtom.mesh.fullHoles.push(3);
   }
   // If clickedObj is a hole face
-  else if (clickedObj && App.highlighted && clickedObj.object === App.highlighted.face.object && clickedObj.faceIndex === App.highlighted.face.faceIndex) {
+  else if (clickedObj && App.highlighted && clickedObj.object && clickedObj.object === App.highlighted.face.object && clickedObj.faceIndex === App.highlighted.face.faceIndex) {
     addSingleBond();
+  }
+  // If clickedObj is a bond with children
+  else if (clickedObj && clickedObj.object.pieceName === 'single bond body') {
+    App.bondRotationTimer = setInterval(function() {
+      clickedObj.object.parent.rotateY(1*Math.PI/180);
+    }, 25);
   }
 }
 
