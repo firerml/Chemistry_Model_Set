@@ -14,10 +14,15 @@ var Atom = function(diameter, x, y, z, color) {
     }
   }.bind(this);
 
-  makeHoleFaces(4528,4553,0);
-  makeHoleFaces(2491,2516,1);
-  makeHoleFaces(3559,3606,2);
-  makeHoleFaces(975,998,3);
+  // Uncomment this to randomize colors
+  // for (var i = 0; i < atom.geometry.faces.length; i++) {
+  //   atom.geometry.faces[i].color.setHex(Math.random()*0xffffff);
+  // }
+
+  makeHoleFaces(611,632,0);
+  makeHoleFaces(4560,4581,1)
+  makeHoleFaces(1943,1966,2);
+  makeHoleFaces(3250,3297,3)
 
   var material = new THREE.MeshPhongMaterial({vertexColors: THREE.FaceColors });
     atom.geometry.colorsNeedUpdate = true;
@@ -26,6 +31,8 @@ var Atom = function(diameter, x, y, z, color) {
     this.mesh.holeFaces = holeFaces;
     this.mesh.fullHoles = [];
     this.mesh.position.set(x,y,z);
+
+
     App.objects.push(this.mesh);
 }
 
@@ -45,14 +52,14 @@ var SingleBond = function(atom, holeNum) {
 
   switch(holeNum) {
     case 0:
-      xRot = 108;
+      xRot = 109.47;
       break;
     case 1:
-      xRot = 108;
+      xRot = 109.47;
       yRot = 240;
       break;
     case 2:
-      xRot = 108;
+      xRot = 109.47;
       yRot = 120;
       break;
     case 3:

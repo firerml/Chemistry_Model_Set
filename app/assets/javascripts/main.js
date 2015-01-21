@@ -33,10 +33,6 @@ $(function() {
 
   var atom = new Atom(8, 0, 0, 0, 'red');
   App.atoms.push(atom);
-  // App.bond1 = new SingleBond(App.atom1);
-  // App.bond2 = new SingleBond(App.atom1, 108);
-  // App.bond3 = new SingleBond(App.atom1, 108, 120);
-  // App.bond4 = new SingleBond(App.atom1, 108, 240);
 
   App.molecule = new THREE.Object3D();
   App.molecule.add(atom.mesh);
@@ -101,6 +97,8 @@ function onHover(event) {
 function onClick(event) {
   App.clicked = true;
   var clickedObj = getMouseObject(event);
+  // Uncomment this to see face indexes on click
+  // console.log(clickedObj.faceIndex);
   // If clickedObj is a bondHead
   if (clickedObj && App.highlighted && App.highlighted.object === 'bondHead' && clickedObj.object === App.highlighted.bondHead) {
     var newAtom = addAtom(clickedObj.object);
