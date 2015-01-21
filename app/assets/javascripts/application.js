@@ -13,4 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require threejs/three.min
+//= require threejs/TrackballControls
 //= require_tree .
