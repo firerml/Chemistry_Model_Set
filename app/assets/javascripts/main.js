@@ -115,19 +115,17 @@ function addSingleBond() {
   var atom = App.highlighted.atom;
   var holeNum = App.highlighted.hole;
   var bond = new SingleBond(atom, holeNum);
-  App.scene.add(bond.bond);
+  // App.scene.add(bond.bond);
   changeHoleColor(0xff0000);
   atom.fullHoles.push(holeNum);
 }
 
-function addAtom(bondHead) {
-  var newAtom = new Atom(8, bondHead.getWorldPosition().x,
-                            bondHead.getWorldPosition().y,
-                            bondHead.getWorldPosition().z, 'red');
-  var bondRotation = bondHead.parent.rotation.toArray();
+function addAtom(bond) {
+  var newAtom = new Atom(8,'red',bond);
+  var bondRotation = bond.rotation.toArray();
   newAtom.mesh.rotation.fromArray(bondRotation);
   newAtom.mesh.rotateX(180*Math.PI/180);
-  App.scene.add(newAtom.mesh);
+  // App.scene.add(newAtom.mesh);
   return newAtom;
 }
 

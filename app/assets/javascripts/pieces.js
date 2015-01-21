@@ -1,4 +1,4 @@
-var Atom = function(diameter, x, y, z, color) {
+var Atom = function(diameter, color, bond) {
   var atom = App.loader.parse(App.atomGeom);
   for (var i = 0; i < atom.geometry.faces.length; i++) {
     var face = atom.geometry.faces[i];
@@ -25,15 +25,14 @@ var Atom = function(diameter, x, y, z, color) {
   makeHoleFaces(3250,3297,3)
 
   var material = new THREE.MeshPhongMaterial({vertexColors: THREE.FaceColors });
-    atom.geometry.colorsNeedUpdate = true;
-    this.mesh = new THREE.Mesh(atom.geometry, material);
-    this.mesh.holeHighlighted = -1;
-    this.mesh.holeFaces = holeFaces;
-    this.mesh.fullHoles = [];
-    this.mesh.position.set(x,y,z);
+  atom.geometry.colorsNeedUpdate = true;
+  this.mesh = new THREE.Mesh(atom.geometry, material);
+  this.mesh.holeHighlighted = -1;
+  this.mesh.holeFaces = holeFaces;
+  this.mesh.fullHoles = [];
 
-
-    App.objects.push(this.mesh);
+  bond ? bond.add(this.mesh) : null;
+  App.objects.push(this.mesh);
 }
 
 var SingleBond = function(atom, holeNum) {
@@ -47,7 +46,7 @@ var SingleBond = function(atom, holeNum) {
   this.bond = new THREE.Object3D();
   this.bond.add(this.bondBody, this.bondHead);
   this.bond.position.fromArray(atom.position.toArray());
-  this.bond.rotation.fromArray(atom.rotation.toArray());
+  // this.bond.rotation.fromArray(atom.rotation.toArray());
   this.bondHead.translateY(22);
 
   switch(holeNum) {
@@ -70,5 +69,6 @@ var SingleBond = function(atom, holeNum) {
   if (xRot) this.bond.rotateX(xRot*Math.PI/180);
   if (zRot) this.bond.rotateZ(zRot*Math.PI/180);
   this.bond.translateY(16);
+  atom.add(this.bond);
   App.objects.push(this.bondBody, this.bondHead);
 }
