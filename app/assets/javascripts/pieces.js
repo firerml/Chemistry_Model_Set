@@ -1,12 +1,14 @@
-var Atom = function(diameter, color, bond) {
-  var atom = App.loader.parse(App.atomGeom);
+var Atom = function(holes, color, bond) {
+  // grabbing the atom geometry object
+  if (holes === 4) var atom = App.loader.parse(App.fourHoleAtom);
   for (var i = 0; i < atom.geometry.faces.length; i++) {
     var face = atom.geometry.faces[i];
     // face.color.setHex(Math.random() * 0xffffff);
-    face.color.setHex(0xff0000);
+    face.color.setHex(color);
   }
 
-  var holeFaces = [[],[],[],[]];
+  var holeFaces = [];
+  for (var i = 0; i < holes; i++) holeFaces.push([]);
   var makeHoleFaces = function(start,stop,holeNum) {
     for (var i = start; i <= stop; i++) {
       holeFaces[holeNum].push(atom.geometry.faces[i]);
@@ -19,19 +21,22 @@ var Atom = function(diameter, color, bond) {
   //   atom.geometry.faces[i].color.setHex(Math.random()*0xffffff);
   // }
 
-  makeHoleFaces(611,632,0);
-  makeHoleFaces(4560,4581,1)
-  makeHoleFaces(1943,1966,2);
-  makeHoleFaces(3250,3297,3)
+  if (holes === 4) {
+    makeHoleFaces(611,632,0);
+    makeHoleFaces(4560,4581,1)
+    makeHoleFaces(1943,1966,2);
+    makeHoleFaces(3250,3297,3)
+  }
 
   var material = new THREE.MeshPhongMaterial({vertexColors: THREE.FaceColors });
   atom.geometry.colorsNeedUpdate = true;
   this.mesh = new THREE.Mesh(atom.geometry, material);
   this.mesh.holeHighlighted = -1;
   this.mesh.holeFaces = holeFaces;
+  this.mesh.myColor = color;
   this.mesh.fullHoles = [];
 
-  bond ? bond.add(this.mesh) : null;
+  if (bond) bond.add(this.mesh);
   App.objects.push(this.mesh);
 }
 

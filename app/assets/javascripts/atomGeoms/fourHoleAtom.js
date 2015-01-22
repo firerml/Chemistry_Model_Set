@@ -1,4 +1,4 @@
-var atomGeom = {
+App.fourHoleAtom = {
 
 		"metadata": {
 			"formatVersion" : 3.1,

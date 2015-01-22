@@ -13,20 +13,59 @@
  *
  *= require_tree .
  *= require_self
- *= require jquery-ui
  */
 
 body {
   margin: 0;
   padding: 0;
-  background: #9a9a9a;
+  background: #C4C4C4;
 }
 
-#red-cursor {
-  cursor: url('redcircle.cur'), auto;
+#black {
+  cursor: url('black.cur'), auto;
 }
 
-#single-bond-cursor {
+#blue3 {
+  cursor: url('blue3.cur'), auto;
+}
+
+#blue4 {
+  cursor: url('blue4.cur'), auto;
+}
+
+#gray {
+  cursor: url('gray.cur'), auto;
+}
+
+#green {
+  cursor: url('green.cur'), auto;
+}
+
+#purple {
+  cursor: url('purple.cur'), auto;
+}
+
+#purple {
+  cursor: url('purple.cur'), auto;
+}
+
+#red {
+  cursor: url('red.cur'), auto;
+}
+
+#white {
+  cursor: url('white.cur'), auto;
+}
+
+#yellow4 {
+  cursor: url('yellow4.cur'), auto;
+}
+
+#yellow6 {
+  cursor: url('yellow6.cur'), auto;
+}
+
+#single-bond {
   cursor: url('singlebond.cur'), auto;
 }
 
@@ -40,6 +79,9 @@ canvas {
 
 #piece-container {
   overflow: hidden;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bold;
 }
 
 .piece {

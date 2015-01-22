@@ -23,8 +23,6 @@ $(function() {
   App.camera.position.set(75,75,60);
   App.controls = new THREE.TrackballControls(App.camera);
   App.loader = new THREE.JSONLoader();
-  // grabbing the atomGeom object from the other file
-  App.atomGeom = atomGeom;
 
   // Event listeners
   App.renderer.domElement.addEventListener('mousemove', onHover);
@@ -35,22 +33,25 @@ $(function() {
 
   setLights(App.scene);
 
-  var atom = new Atom(8, 0, 0, 0, 'red');
+  var atom = new Atom(4, 0xff0000);
   App.atoms.push(atom);
 
-  App.molecule = new THREE.Object3D();
-  App.molecule.add(atom.mesh);
-  App.scene.add(App.molecule);
+  App.scene.add(atom.mesh);
   render();
 });
 
 function addCursorEvents() {
-  $('#carbon').on('click',function() {
-    $('html').attr('id','red-cursor');
-  });
-  $('#single-bond').on('click',function() {
-    $('html').attr('id','single-bond-cursor');
-  });
+  var addClickEvent = function(id,color) {
+    $('#' + id + '-big').on('click',function() {
+      $('html').attr('id',id);
+      if (id !== 'single-bond') $('html').addClass('atom-cursor');
+    });
+  }
+  var ids = ['black','white','red','blue3','blue4','yellow4','yellow6',
+             'green','purple','gray','single-bond'];
+  for (var i = 0; i < ids.length; i++) {
+    addClickEvent(ids[i]);
+  }
 }
 
 function setLights() {
