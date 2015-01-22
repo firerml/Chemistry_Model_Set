@@ -1,0 +1,90 @@
+var App = {};
+
+$(function() {
+  // basic setup
+  App.dragging = null;
+  App.width = window.innerWidth*0.8;
+  App.height = window.innerHeight;
+  $('#container').css('height',window.innerHeight);
+  App.clicked = false;
+  App.objects = [];
+  App.bondHeads = [];
+  App.atoms = [];
+  App.highlighted = null;
+
+  App.projector = new THREE.Projector();
+  App.scene = new THREE.Scene();
+  App.renderer = new THREE.WebGLRenderer();
+  App.renderer.setClearColor('lavender', 1);
+  App.renderer.setSize(App.width, App.height);
+  $('#threejs').append(App.renderer.domElement);
+
+  App.camera = new THREE.PerspectiveCamera(70,App.width/App.height,0.1,1000);
+  App.camera.position.set(75,75,60);
+  App.controls = new THREE.TrackballControls(App.camera);
+  App.loader = new THREE.JSONLoader();
+  // grabbing the atomGeom object from the other file
+  App.atomGeom = atomGeom;
+
+  // Event listeners
+  App.renderer.domElement.addEventListener('mousemove', onHover);
+  App.renderer.domElement.addEventListener('mousedown', onClick);
+  App.renderer.domElement.addEventListener('mouseup', onMouseUp);
+
+  addCursorEvents();
+
+  setLights(App.scene);
+
+  var atom = new Atom(8, 0, 0, 0, 'red');
+  App.atoms.push(atom);
+
+  App.molecule = new THREE.Object3D();
+  App.molecule.add(atom.mesh);
+  App.scene.add(App.molecule);
+  render();
+});
+
+function addCursorEvents() {
+  $('#carbon').on('click',function() {
+    $('html').attr('id','red-cursor');
+  });
+  $('#single-bond').on('click',function() {
+    $('html').attr('id','single-bond-cursor');
+  });
+}
+
+function setLights() {
+  var makeLight = function(intensity,x,y,z) {
+    var light = new THREE.PointLight(0xffffff, intensity);
+    light.position.set(x,y,z);
+    App.scene.add(light);
+  }
+  makeLight(1,500,500,500);
+  makeLight(1,-500,-500,-500);
+  makeLight(.1,-500,500,500);
+  makeLight(.1,500,-500,500);
+  makeLight(.1,500,500,-500);
+  makeLight(.1,-500,-500,500);
+  makeLight(.1,-500,500,-500);
+  makeLight(.1,500,-500,-500);
+}
+
+function render() {
+  requestAnimationFrame(render);
+  App.scene.updateMatrixWorld();
+  App.controls.update();
+  App.renderer.render(App.scene, App.camera);
+}
+
+function getMouseObject() {
+  var mouse3D = new THREE.Vector3( (event.clientX/App.width) * 2 - 1,
+  -1*(event.clientY/App.height) * 2 + 1,
+  0.5 );
+  mouse3D.unproject(App.camera);
+  mouse3D.sub(App.camera.position);
+  mouse3D.normalize();
+  var raycaster = new THREE.Raycaster(App.camera.position, mouse3D);
+  var intersects = raycaster.intersectObjects(App.objects);
+  // Return the object closest to the App.camera
+  return intersects[0] ? intersects[0] : null;
+}

@@ -8,22 +8,15 @@
 </head>
 <body>
   <div id='threejs'></div>
-  <div id='container'>
-    <div id='pieces'>
-
-    <div class='piece-container'>
-      <p>Atoms</p>
-      <div class='piece-info'>
-        <%= image_tag('redcircle.png', {class: 'piece', id: 'carbon'}) %>
-        <p>C (four bonding sites)</p>
-      <div>
-      <div class='piece-info'>
-        <%= image_tag('bond.png', {class: 'piece', id: 'single-bond'}) %>
-        <p>Single Bond</p>
-      <div>
+  <div id='piece-container'>
+    <p>Atoms</p>
+    <div class='piece-info'>
+      <%= image_tag('redcircle.png', {class: 'piece', id: 'carbon'}) %>
+      <p>C (four bonding sites)</p>
     </div>
-
-
+    <div class='piece-info'>
+      <%= image_tag('singlebond.png', {class: 'piece', id: 'single-bond'}) %>
+      <p>Single Bond</p>
     </div>
   </div>
 </body>

@@ -19,6 +19,7 @@
 body {
   margin: 0;
   padding: 0;
+  background: #9a9a9a;
 }
 
 #red-cursor {
@@ -37,14 +38,10 @@ canvas {
   float: left;
 }
 
-#container {
-  background: #9a9a9a;
+#piece-container {
   overflow: hidden;
 }
 
 .piece {
-  height: 50px;
-  width: 50px;
-  border-radius: 100%;
-  background: red;
+  width: 25px;
 }
