@@ -47,8 +47,12 @@ function onClick(event) {
   // Uncomment this to see face indexes on click
   // console.log(clickedObj.faceIndex);
 
+  if (App.objects.length === 0 && $('html').attr('id')) {
+    var newAtom = addAtom();
+    App.scene.add(newAtom.mesh);
+  }
   // If clickedObj is a bondHead
-  if (clickedObj && App.highlighted && App.highlighted.object === 'bondHead' && clickedObj.object === App.highlighted.bondHead) {
+  else if (clickedObj && App.highlighted && App.highlighted.object === 'bondHead' && clickedObj.object === App.highlighted.bondHead) {
     var newAtom = addAtom(clickedObj.object);
     changeHoleColor(newAtom.mesh.myColor, newAtom);
     newAtom.mesh.fullHoles.push(3);
@@ -127,11 +131,12 @@ function addAtom(bond) {
       break;
   }
 
-
   var newAtom = new Atom(holes,color,bond);
-  var bondRotation = bond.rotation.toArray();
-  newAtom.mesh.rotation.fromArray(bondRotation);
-  newAtom.mesh.rotateX(180*Math.PI/180);
+  if (bond) {
+    var bondRotation = bond.rotation.toArray();
+    newAtom.mesh.rotation.fromArray(bondRotation);
+    newAtom.mesh.rotateX(180*Math.PI/180);
+  }
   return newAtom;
 }
 

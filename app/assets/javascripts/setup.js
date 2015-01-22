@@ -33,10 +33,6 @@ $(function() {
 
   setLights(App.scene);
 
-  var atom = new Atom(4, 0xff0000);
-  App.atoms.push(atom);
-
-  App.scene.add(atom.mesh);
   render();
 });
 
