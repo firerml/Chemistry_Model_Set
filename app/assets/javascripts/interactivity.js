@@ -91,14 +91,14 @@ function addAtom(bond) {
   switch ($('html').attr('id')) {
     case 'black':
       holes = 4;
-      color = 0x242424;
+      color = 0x363636;
       break;
     case 'white':
-      holes = 4;
+      holes = 1;
       color = 0xffffff;
       break;
     case 'red':
-      holes = 4;
+      holes = 2;
       color = 0xff0000;
       break;
     case 'blue3':
@@ -118,7 +118,7 @@ function addAtom(bond) {
       color = 0xffff00;
       break;
     case 'green':
-      holes = 4;
+      holes = 1;
       color = 0x267f00;
       break;
     case 'purple':
@@ -126,7 +126,7 @@ function addAtom(bond) {
       color = 0x57007f;
       break;
     case 'gray':
-      holes = 4;
+      holes = 1;
       color = 0xa9a9a9;
       break;
   }

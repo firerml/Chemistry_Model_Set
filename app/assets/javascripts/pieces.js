@@ -1,6 +1,17 @@
 var Atom = function(holes, color, bond) {
   // grabbing the atom geometry object
-  if (holes === 4) var atom = App.loader.parse(App.fourHoleAtom);
+  var atom;
+  switch (holes) {
+    case 4:
+      atom = App.loader.parse(App.fourHoleAtom);
+      break;
+    case 2:
+      atom = App.loader.parse(App.twoHoleAtom);
+      break;
+    case 1:
+      atom = App.loader.parse(App.oneHoleAtom);
+      break;
+  }
   for (var i = 0; i < atom.geometry.faces.length; i++) {
     var face = atom.geometry.faces[i];
     // face.color.setHex(Math.random() * 0xffffff);
