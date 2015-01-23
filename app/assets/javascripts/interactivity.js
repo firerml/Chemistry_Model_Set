@@ -44,8 +44,8 @@ function onClick(event) {
   var clickedObj = getMouseObject(event);
   App.clicked = true;
 
-  // Uncomment this to see face indexes on click
-  // console.log(clickedObj.faceIndex);
+  // // Uncomment this to see face indexes on click
+  // if (clickedObj) console.log(clickedObj.faceIndex);
 
   if (App.objects.length === 0 && $('html').attr('id')) {
     var newAtom = addAtom();
@@ -55,7 +55,7 @@ function onClick(event) {
   else if (clickedObj && App.highlighted && App.highlighted.object === 'bondHead' && clickedObj.object === App.highlighted.bondHead) {
     var newAtom = addAtom(clickedObj.object);
     changeHoleColor(newAtom.mesh.myColor, newAtom);
-    newAtom.mesh.fullHoles.push(3);
+    newAtom.mesh.fullHoles.push(0);
   }
   // If clickedObj is a hole face
   else if (clickedObj && App.highlighted && clickedObj.object
@@ -102,7 +102,7 @@ function addAtom(bond) {
       color = 0xff0000;
       break;
     case 'blue3':
-      holes = 4;
+      holes = 3;
       color = 0x0000ff;
       break;
     case 'blue4':
@@ -114,7 +114,7 @@ function addAtom(bond) {
       color = 0xffff00;
       break;
     case 'yellow6':
-      holes = 4;
+      holes = 6;
       color = 0xffff00;
       break;
     case 'green':
@@ -130,7 +130,6 @@ function addAtom(bond) {
       color = 0xa9a9a9;
       break;
   }
-
   var newAtom = new Atom(holes,color,bond);
   if (bond) {
     var bondRotation = bond.rotation.toArray();
@@ -147,7 +146,7 @@ function changeHoleColor(hexColor, newAtom) {
   }
   else {
     atom = newAtom.mesh;
-    holeNum = 3;
+    holeNum = 0;
   }
   var faces = atom.holeFaces;
   for (var i = 0; i < faces[holeNum].length; i++) {

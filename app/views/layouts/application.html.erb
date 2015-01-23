@@ -8,63 +8,65 @@
 </head>
 <body>
   <div id='threejs'></div>
-  <table id='piece-container'>
-    <tr>
-      <td class='piece-info'>
-        <%= image_tag('black.png', {class: 'piece', id: 'black-big'}) %>
-      </td>
-      <td class='piece-info'>
-        <%= image_tag('white.png', {class: 'piece', id: 'white-big'}) %>
-      </td>
-      <td class='piece-info'>
-        <%= image_tag('red.png', {class: 'piece', id: 'red-big'}) %>
-      </td>
-      <td class='piece-info'>
-        <%= image_tag('blue3.png', {class: 'piece', id: 'blue3-big'}) %>
-      </td>
-      <td class='piece-info'>
-        <%= image_tag('blue4.png', {class: 'piece', id: 'blue4-big'}) %>
-      </td>
-    </tr>
-    <tr>
-      <td>C</td>
-      <td>H</td>
-      <td>O</td>
-      <td>N (3)</td>
-      <td>N (4)</td>
-    </tr>
-    <tr>
-      <td class='piece-info'>
-        <%= image_tag('yellow4.png', {class: 'piece', id: 'yellow4-big'}) %>
-      </td>
-      <td class='piece-info'>
-        <%= image_tag('yellow6.png', {class: 'piece', id: 'yellow6-big'}) %>
-      </td>
-      <td class='piece-info'>
-        <%= image_tag('green.png', {class: 'piece', id: 'green-big'}) %>
-      </td>
-      <td class='piece-info'>
-        <%= image_tag('purple.png', {class: 'piece', id: 'purple-big'}) %>
-      </td>
-      <td class='piece-info'>
-        <%= image_tag('gray.png', {class: 'piece', id: 'gray-big'}) %>
-      </td>
-    </tr>
-    <tr>
-      <td>S (4)</td>
-      <td>S (6)</td>
-      <td>Halogen</td>
-      <td>P</td>
-      <td>Metal</td>
-    </tr>
-    <tr>
-      <td class='piece-info'>
-        <%= image_tag('singlebond.png', {class: 'piece', id: 'single-bond-big'}) %>
-      </td>
-    </tr>
-    <tr>
-      <td>Bond</td>
-    </tr>
-  </table>
+  <div id='toolbar'>
+    <table id='piece-container'>
+      <tr>
+        <td class='piece-info'>
+          <%= image_tag('black.png', {class: 'piece', id: 'black-big'}) %>
+        </td>
+        <td class='piece-info'>
+          <%= image_tag('white.png', {class: 'piece', id: 'white-big'}) %>
+        </td>
+        <td class='piece-info'>
+          <%= image_tag('red.png', {class: 'piece', id: 'red-big'}) %>
+        </td>
+        <td class='piece-info'>
+          <%= image_tag('blue3.png', {class: 'piece', id: 'blue3-big'}) %>
+        </td>
+        <td class='piece-info'>
+          <%= image_tag('blue4.png', {class: 'piece', id: 'blue4-big'}) %>
+        </td>
+      </tr>
+      <tr>
+        <td>C</td>
+        <td>H</td>
+        <td>O</td>
+        <td>N (3)</td>
+        <td>N (4)</td>
+      </tr>
+      <tr>
+        <td class='piece-info'>
+          <%= image_tag('yellow4.png', {class: 'piece', id: 'yellow4-big'}) %>
+        </td>
+        <td class='piece-info'>
+          <%= image_tag('yellow6.png', {class: 'piece', id: 'yellow6-big'}) %>
+        </td>
+        <td class='piece-info'>
+          <%= image_tag('green.png', {class: 'piece', id: 'green-big'}) %>
+        </td>
+        <td class='piece-info'>
+          <%= image_tag('purple.png', {class: 'piece', id: 'purple-big'}) %>
+        </td>
+        <td class='piece-info'>
+          <%= image_tag('gray.png', {class: 'piece', id: 'gray-big'}) %>
+        </td>
+      </tr>
+      <tr>
+        <td>S (4)</td>
+        <td>S (6)</td>
+        <td>Halogen</td>
+        <td>P</td>
+        <td>Metal</td>
+      </tr>
+      <tr>
+        <td class='piece-info'>
+          <%= image_tag('singlebond.png', {class: 'piece', id: 'single-bond-big'}) %>
+        </td>
+      </tr>
+      <tr>
+        <td>Bond</td>
+      </tr>
+    </table>
+  </div>
 </body>
 </html>

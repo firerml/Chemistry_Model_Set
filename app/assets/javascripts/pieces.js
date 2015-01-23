@@ -24,9 +24,8 @@ var Atom = function(holes, color, bond) {
     face.color.setHex(color);
   }
 
-  var holeFaces = [];
-  // make as many arrays as there are holes on the atom
-  for (var i = 0; i < holes; i++) holeFaces.push([]);
+  // There are more than six holes because a six-hole atom has very different angles
+  var holeFaces = [[],[],[],[],[],[],[],[],[]];
   var makeHoleFaces = function(start,stop,holeNum) {
     for (var i = start; i <= stop; i++) {
       holeFaces[holeNum].push(atom.geometry.faces[i]);
@@ -34,17 +33,40 @@ var Atom = function(holes, color, bond) {
     }
   };
 
-  // Uncomment this to randomize colors
+  // // Uncomment this to randomize colors
   // for (var i = 0; i < atom.geometry.faces.length; i++) {
   //   atom.geometry.faces[i].color.setHex(Math.random()*0xffffff);
   // }
 
-  if (holes === 4) {
-    makeHoleFaces(611,632,0);
-    makeHoleFaces(4560,4581,1)
-    makeHoleFaces(1943,1966,2);
-    makeHoleFaces(3250,3297,3)
-  }
+  switch (holes) {
+    case 6:
+      makeHoleFaces(4498,4515,0);
+      makeHoleFaces(2268,2287,4);
+      makeHoleFaces(794,811,5);
+      makeHoleFaces(2058,2077,6);
+      makeHoleFaces(362,409,7);
+      makeHoleFaces(3380,3427,8);
+
+      break;
+    case 4:
+      makeHoleFaces(3250,3297,0);
+      makeHoleFaces(4560,4581,1);
+      makeHoleFaces(1943,1966,2);
+      makeHoleFaces(611,632,3);
+      break;
+    case 3:
+      makeHoleFaces(4680,4699,0);
+      makeHoleFaces(1036,1053,1);
+      makeHoleFaces(3567,3598,3);
+      break;
+    case 2:
+      makeHoleFaces(4680,4697,0);
+      makeHoleFaces(3427,3474,3);
+      break;
+    case 1:
+      makeHoleFaces(4650,4697,0);
+      break;
+    }
 
   var material = new THREE.MeshPhongMaterial({vertexColors: THREE.FaceColors });
   atom.geometry.colorsNeedUpdate = true;
@@ -75,7 +97,6 @@ var SingleBond = function(atom, holeNum) {
 
   switch(holeNum) {
     case 0:
-      xRot = 109.47;
       break;
     case 1:
       xRot = 109.47;
@@ -86,6 +107,24 @@ var SingleBond = function(atom, holeNum) {
       yRot = 120;
       break;
     case 3:
+      xRot = 109.47;
+      break;
+    case 4:
+      zRot = 90;
+      break;
+    case 5:
+      zRot = 180;
+      break;
+    case 6:
+      zRot = 270;
+      break;
+    case 7:
+      yRot = 90;
+      zRot = 90;
+      break;
+    case 8:
+      yRot = 270;
+      zRot = 90;
       break;
   }
 
