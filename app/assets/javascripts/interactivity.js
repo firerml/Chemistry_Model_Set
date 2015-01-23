@@ -27,6 +27,15 @@ function onHover(event) {
     App.highlighted = {object: 'bondHead', atom: atom,
     bond: hovered.object.parent, bondHead: hovered.object};
   }
+  // If you're hovering on a bond body and you aren't holding a piece
+  else if (!$('html').attr('id') && hovered && hovered.object.pieceName === 'single bond body') {
+    $('html').attr('id','rotate');
+  }
+  // If the cursor is 'rotate' and you're not on a bond body
+  else if ($('html').attr('id') === 'rotate'
+           && (!hovered || !hovered.object || hovered.object.pieceName !== 'single bond body')) {
+    $('html').attr('id','');
+  }
 
   // Unpaint objects when not hovered on
   // Unpaint hole
@@ -70,7 +79,9 @@ function onClick(event) {
       clickedObj.object.parent.rotateY(2*Math.PI/180);
     }, 25);
   }
-  $('html').attr('id','').attr('class','');
+  if ($('html').attr('id') !== 'rotate') {
+    $('html').attr('id','').attr('class','');
+  }
 }
 
 function onMouseUp() {

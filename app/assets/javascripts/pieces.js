@@ -46,7 +46,6 @@ var Atom = function(holes, color, bond) {
       makeHoleFaces(2058,2077,6);
       makeHoleFaces(362,409,7);
       makeHoleFaces(3380,3427,8);
-
       break;
     case 4:
       makeHoleFaces(3250,3297,0);
