@@ -27,8 +27,12 @@ function onHover(event) {
     App.highlighted = {object: 'bondHead', atom: atom,
     bond: hovered.object.parent, bondHead: hovered.object};
   }
-  // If you're hovering on a bond body and you aren't holding a piece
-  else if (!$('html').attr('id') && hovered && hovered.object.pieceName === 'single bond body') {
+  // If you're hovering on a bond body with children and you aren't holding a piece
+  else if (!$('html').attr('id') && hovered
+           && hovered.object.pieceName === 'single bond body'
+           // the bond body's parent is the 'bond' grouping, children[0] is the
+           // bond head. Any attached pieces are children of the bond head. 
+           && hovered.object.parent.children[0].children.length) {
     $('html').attr('id','rotate');
   }
   // If the cursor is 'rotate' and you're not on a bond body

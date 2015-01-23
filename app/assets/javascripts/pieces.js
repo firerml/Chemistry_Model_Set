@@ -1,4 +1,4 @@
-var Atom = function(holes, color, bond) {
+var Atom = function(holes, color, bondHead) {
   // grabbing the atom geometry object
   var atom;
   switch (holes) {
@@ -74,8 +74,7 @@ var Atom = function(holes, color, bond) {
   this.mesh.holeFaces = holeFaces;
   this.mesh.myColor = color;
   this.mesh.fullHoles = [];
-
-  if (bond) bond.add(this.mesh);
+  if (bondHead) bondHead.add(this.mesh);
   App.objects.push(this.mesh);
 }
 
@@ -89,7 +88,7 @@ var SingleBond = function(atom, holeNum) {
   App.bondHeads.push(this.bondHead);
   this.bond = new THREE.Object3D();
   this.bondBody.pieceName = 'single bond body'
-  this.bond.add(this.bondBody, this.bondHead);
+  this.bond.add(this.bondHead, this.bondBody);
   this.bond.position.fromArray(atom.position.toArray());
   // this.bond.rotation.fromArray(atom.rotation.toArray());
   this.bondHead.translateY(22);
