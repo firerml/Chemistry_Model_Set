@@ -2,8 +2,14 @@ var Atom = function(holes, color, bond) {
   // grabbing the atom geometry object
   var atom;
   switch (holes) {
+    case 6:
+      atom = App.loader.parse(App.sixHoleAtom);
+      break;
     case 4:
       atom = App.loader.parse(App.fourHoleAtom);
+      break;
+    case 3:
+      atom = App.loader.parse(App.threeHoleAtom);
       break;
     case 2:
       atom = App.loader.parse(App.twoHoleAtom);
@@ -19,13 +25,14 @@ var Atom = function(holes, color, bond) {
   }
 
   var holeFaces = [];
+  // make as many arrays as there are holes on the atom
   for (var i = 0; i < holes; i++) holeFaces.push([]);
   var makeHoleFaces = function(start,stop,holeNum) {
     for (var i = start; i <= stop; i++) {
       holeFaces[holeNum].push(atom.geometry.faces[i]);
       atom.geometry.faces[i].color.setHex(0x000000);
     }
-  }.bind(this);
+  };
 
   // Uncomment this to randomize colors
   // for (var i = 0; i < atom.geometry.faces.length; i++) {
