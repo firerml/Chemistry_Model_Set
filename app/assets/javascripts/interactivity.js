@@ -1,14 +1,14 @@
 function onHover(event) {
   var hovered = getMouseObject(event);
   var onHole = false;
-  // If you're hovering on an atom
-  if (!App.clicked && hovered && hovered.object.holeFaces) {
+  // If you're hovering on an atom and the cursor's a single bond
+  if (!App.clicked && hovered && hovered.object.holeFaces
+      && $('html').attr('id') === 'single-bond') {
     var atom = hovered.object;
     for (var i = 0; i < atom.holeFaces.length; i++) {
-      // If you're hovering on a hole, the hole's empty, and the cursor's a single bond
+      // If you're hovering on a hole, the hole's empty
       if (atom.holeFaces[i].indexOf(hovered.face) !== -1
-        && atom.fullHoles.indexOf(i) === -1
-        && $('html').attr('id') === 'single-bond') {
+        && atom.fullHoles.indexOf(i) === -1) {
         for (var j = 0; j < atom.holeFaces[i].length; j++) {
           // Paint the whole hole yellow
           onHole = true;
@@ -45,9 +45,8 @@ function onHover(event) {
            && (!hovered || hovered.object.pieceName !== 'single bond body')) {
     $('html').attr('id','single-bond');
   }
-
   // If the cursor is 'rotate' and you're not on a bond body
-  if ($('html').attr('id') === 'rotate'
+  else if ($('html').attr('id') === 'rotate'
            && (!hovered || hovered.object.pieceName !== 'single bond body')) {
     $('html').attr('id','');
   }
@@ -103,6 +102,10 @@ function onClick(event) {
   else if ($('html').attr('id') === 'upgrade-bond') {
     var nextAtom = clickedObj.parent.children[0].children[0];
     var prevAtom = clickedObj.parent.parent;
+    if (nextAtom.holeCount > nextAtom.fullHoles.length
+        && prevAtom.holeCount > prevAtom.fullHoles.length) {
+      console.log('good');
+    }
   }
 
   if ($('html').attr('id') !== 'rotate') {
