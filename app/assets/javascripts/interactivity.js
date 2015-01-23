@@ -31,22 +31,31 @@ function onHover(event) {
   else if (!$('html').attr('id') && hovered
            && hovered.object.pieceName === 'single bond body'
            // the bond body's parent is the 'bond' grouping, children[0] is the
-           // bond head. Any attached pieces are children of the bond head. 
+           // bond head. Any attached pieces are children of the bond head.
            && hovered.object.parent.children[0].children.length) {
     $('html').attr('id','rotate');
   }
-  // If the cursor is 'rotate' and you're not on a bond body
-  else if ($('html').attr('id') === 'rotate'
-           && (!hovered || !hovered.object || hovered.object.pieceName !== 'single bond body')) {
-    $('html').attr('id','');
+  // If you're hovering on a bond body with children and you're holding a bond
+  else if ($('html').attr('id') === 'single-bond' && hovered
+           && hovered.object.pieceName === 'single bond body') {
+    $('html').attr('id','upgrade-bond');
+  }
+  // If the cursor is 'upgrade bond' and you're not on a bond body
+  else if ($('html').attr('id') === 'upgrade-bond'
+           && (!hovered || hovered.object.pieceName !== 'single bond body')) {
+    $('html').attr('id','single-bond');
   }
 
-  // Unpaint objects when not hovered on
-  // Unpaint hole
+  // If the cursor is 'rotate' and you're not on a bond body
+  if ($('html').attr('id') === 'rotate'
+           && (!hovered || hovered.object.pieceName !== 'single bond body')) {
+    $('html').attr('id','');
+  }
+  // Unpaint hole when not hovered on
   if (!onHole && App.highlighted && App.highlighted.object === 'hole') {
     changeHoleColor(0x000000);
   }
-  // Unpaint bondHead
+  // Unpaint bondHead when not hovered on
   else if (App.highlighted && App.highlighted.object === 'bondHead'
           && (!hovered || hovered.object !== App.highlighted.bondHead)) {
     App.highlighted.bondHead.material.color.setHex(0xD3D3D3);
@@ -60,7 +69,8 @@ function onClick(event) {
   // // Uncomment this to see face indexes on click
   // if (clickedObj) console.log(clickedObj.faceIndex);
 
-  if (App.objects.length === 0 && $('html').attr('id')) {
+  // if this is the first object
+  if (App.objects.length === 0 && $('html').attr('class') === 'atom-cursor') {
     var newAtom = addAtom();
     App.scene.add(newAtom.mesh);
   }
@@ -71,13 +81,13 @@ function onClick(event) {
     newAtom.mesh.fullHoles.push(0);
   }
   // If clickedObj is a hole face
-  else if (clickedObj && App.highlighted && clickedObj.object
+  else if (clickedObj && App.highlighted
     && clickedObj.object === App.highlighted.face.object
     && clickedObj.faceIndex === App.highlighted.face.faceIndex) {
     addSingleBond();
   }
-  // If clickedObj is a bond with children
-  else if (clickedObj && clickedObj.object.pieceName === 'single bond body') {
+  // If the cursor is 'rotate'
+  else if ($('html').attr('id') === 'rotate') {
     // clickedObj.object.parent.rotateY(120*Math.PI/180);
     App.bondRotationTimer = setInterval(function() {
       clickedObj.object.parent.rotateY(2*Math.PI/180);

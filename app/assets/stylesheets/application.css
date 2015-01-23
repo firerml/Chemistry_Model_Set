@@ -69,6 +69,10 @@ body {
   cursor: url('singlebond.cur'), auto;
 }
 
+#upgrade-bond {
+  cursor: url('upgradebond.cur'), auto;
+}
+
 #rotate {
   cursor: url('rotate.cur'), auto;
 }
