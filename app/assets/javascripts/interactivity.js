@@ -59,11 +59,16 @@ function onHover(event) {
   else if (App.highlighted && App.highlighted.object === 'bondHead'
           && (!hovered || hovered.object !== App.highlighted.bondHead)) {
     App.highlighted.bondHead.material.color.setHex(0xD3D3D3);
+    App.highlighted = null;
   }
 }
 
 function onClick(event) {
-  var clickedObj = getMouseObject(event);
+  var faceIndex;
+  var clickedObj;
+  var clickedInfo = getMouseObject(event);
+  if (clickedInfo && clickedInfo.faceIndex) faceIndex = clickedInfo.faceIndex;
+  if (clickedInfo && clickedInfo.object) clickedObj = clickedInfo.object;
   App.clicked = true;
 
   // // Uncomment this to see face indexes on click
@@ -75,24 +80,31 @@ function onClick(event) {
     App.scene.add(newAtom.mesh);
   }
   // If clickedObj is a bondHead
-  else if (clickedObj && App.highlighted && App.highlighted.object === 'bondHead' && clickedObj.object === App.highlighted.bondHead) {
-    var newAtom = addAtom(clickedObj.object);
+  else if (App.highlighted && App.highlighted.object === 'bondHead'
+           && clickedObj === App.highlighted.bondHead) {
+    var newAtom = addAtom(clickedObj);
     changeHoleColor(newAtom.mesh.myColor, newAtom);
     newAtom.mesh.fullHoles.push(0);
   }
   // If clickedObj is a hole face
-  else if (clickedObj && App.highlighted
-    && clickedObj.object === App.highlighted.face.object
-    && clickedObj.faceIndex === App.highlighted.face.faceIndex) {
+  else if (App.highlighted && clickedObj === App.highlighted.face.object
+    && faceIndex === App.highlighted.face.faceIndex) {
     addSingleBond();
   }
   // If the cursor is 'rotate'
   else if ($('html').attr('id') === 'rotate') {
     // clickedObj.object.parent.rotateY(120*Math.PI/180);
     App.bondRotationTimer = setInterval(function() {
-      clickedObj.object.parent.rotateY(2*Math.PI/180);
+      clickedObj.parent.rotateY(2*Math.PI/180);
     }, 25);
   }
+  // If the cursor is 'upgrade bond' and the two attached atoms each
+  // have a free bonding site
+  else if ($('html').attr('id') === 'upgrade-bond') {
+    var nextAtom = clickedObj.parent.children[0].children[0];
+    var prevAtom = clickedObj.parent.parent;
+  }
+
   if ($('html').attr('id') !== 'rotate') {
     $('html').attr('id','').attr('class','');
   }
