@@ -115,8 +115,8 @@ function onClick(event) {
     var parentAtom = clickedObj.parent.parent;
     upgradeBond(clickedObj.parent,childAtom,parentAtom);
   }
-
-  if ($('html').attr('id') !== 'rotate') {
+  console.log(event.shiftKey);
+  if ($('html').attr('id') !== 'rotate' && !event.shiftKey) {
     $('html').attr('id','').attr('class','');
   }
 }
