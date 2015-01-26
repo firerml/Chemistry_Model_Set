@@ -51,7 +51,6 @@ function colorFaces(atom,color,shape) {
 
   for (var i = 0; i < atomGeom.faces.length; i++) {
     var face = atomGeom.faces[i];
-    // face.color.setHex(Math.random() * 0xffffff);
     face.color.setHex(color);
   }
 
@@ -102,6 +101,9 @@ function colorFaces(atom,color,shape) {
       if (atom.fullHoles.indexOf(9) === -1) makeHoleFaces(3585,3632,9);
       if (atom.fullHoles.indexOf(10) === -1) makeHoleFaces(718,737,10);
       break;
+    case 'linear':
+      // hole 0 will never be empty, since you cannot start with a linear molecule?
+      if (atom.fullHoles.indexOf(11) === -1) makeHoleFaces(3200,3247,11)
     }
     return holeFaces;
   }
@@ -120,8 +122,7 @@ var SingleBond = function(atom, holeNum) {
   this.bond.holes[atom.uuid] = holeNum;
   this.bondBody.pieceName = 'single bond body'
   this.bond.add(this.bondHead, this.bondBody);
-  this.bond.position.fromArray(atom.position.toArray());
-  // this.bond.rotation.fromArray(atom.rotation.toArray());
+  this.bond.position = atom.position;
   this.bondHead.translateY(22);
 
   switch(holeNum) {
@@ -160,6 +161,9 @@ var SingleBond = function(atom, holeNum) {
       break;
     case 10:
       xRot = 120;
+      break;
+    case 11:
+      xRot = 180;
       break;
   }
 

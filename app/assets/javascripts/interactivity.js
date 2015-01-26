@@ -82,7 +82,7 @@ function onClick(event) {
   App.clicked = true;
 
   // Uncomment this to see face indexes on click
-  // if (faceIndex) console.log(faceIndex);
+  if (faceIndex) console.log(faceIndex);
 
   // if this is the first object
   if (App.objects.length === 0 && $('html').attr('class') === 'atom-cursor') {

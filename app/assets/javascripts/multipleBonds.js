@@ -38,22 +38,19 @@ function changeAtomGeom(atom, isParentAtom) {
       if (!isParentAtom) realignBond(atom.bonds[0],0,0,0);
       atom.fullHoles.push(0);
       if (atom.bonds.length > 1) {
-        atom.fullHoles.push(3);
         realignBond(atom.bonds[1],120,0,0);
+        atom.fullHoles.push(3);
       }
       break;
     case 'trigonal planar':
-      // Note: There will never be a linear molecule with empty holes,
-      // so these numbers represent nothing. It is necessary to give the
-      // linear molecule's fullHoles array two items, though, so that the
-      // upgrade bond cursor does not appear.
-      atom.fullHoles.push(-1,-2);
       atom.geometry = App.loader.parse(App.geometries.linearGeom).geometry;
       atom.shape = 'linear';
       atom.holeCount = 2;
       if (!isParentAtom) realignBond(atom.bonds[0],0,0,0);
+      atom.fullHoles.push(0);
       if (atom.bonds.length > 1) {
         realignBond(atom.bonds[1],180,0,0);
+        atom.fullHoles.push(11);
       }
       break;
       case 'bent':
