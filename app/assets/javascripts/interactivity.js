@@ -5,12 +5,10 @@ function onHover(event) {
   if (!App.clicked && hovered && hovered.object.holeFaces
   && $('html').attr('id') === 'single-bond') {
     var atom = hovered.object;
-    console.log('full holes:',atom.fullHoles);
     for (var i = 0; i < atom.holeFaces.length; i++) {
       // If you're hovering on a hole and the hole's empty
       if (atom.holeFaces[i].indexOf(hovered.face) !== -1
       && atom.fullHoles.indexOf(i) === -1) {
-        console.log(i);
         for (var j = 0; j < atom.holeFaces[i].length; j++) {
           // Highlight the whole hole
           onHole = true;
@@ -21,9 +19,10 @@ function onHover(event) {
       }
     }
   }
-  // If you're hovering on a bondHead
+  // If you're hovering on a bondHead with an atom cursor
   else if (!App.clicked && hovered
   && App.bondHeads.indexOf(hovered.object) !== -1
+  && !hovered.object.children.length
   && $('html').attr('class') === 'atom-cursor') {
     hovered.object.material.color.setHex(0xD90065);
     App.highlighted = {object: 'bondHead', atom: atom,
@@ -96,6 +95,7 @@ function onClick(event) {
     var newAtom = addAtom(clickedObj);
     changeHoleColor(newAtom.mesh.myColor, newAtom.mesh);
     newAtom.mesh.fullHoles.push(0);
+    clickedObj.material.color.setHex(0xD3D3D3);
   }
   // If clickedObj is a hole face
   else if (App.highlighted && clickedObj === App.highlighted.face.object

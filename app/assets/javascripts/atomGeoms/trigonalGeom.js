@@ -1,4 +1,4 @@
-App.trigonalGeom =	{
+App.geometries.trigonalGeom =	{
 
 		"metadata": {
 			"formatVersion" : 3.1,

@@ -1,4 +1,4 @@
-App.oneHoleGeom =	{
+App.geometries.oneHoleGeom =	{
 
 		"metadata": {
 			"formatVersion" : 3.1,

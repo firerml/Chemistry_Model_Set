@@ -1,4 +1,4 @@
-App.linearGeom =	{
+App.geometries.linearGeom =	{
 
 		"metadata": {
 			"formatVersion" : 3.1,

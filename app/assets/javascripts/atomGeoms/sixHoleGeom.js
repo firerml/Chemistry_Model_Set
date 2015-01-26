@@ -1,4 +1,4 @@
-App.octahedralGeom =	{
+App.geometries.octahedralGeom =	{
 
 		"metadata": {
 			"formatVersion" : 3.1,

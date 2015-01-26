@@ -94,3 +94,9 @@ canvas {
 .piece {
   width: 25px;
 }
+
+.button {
+  border-radius: 10px;
+  background: red;
+  padding: 1% 0;
+}

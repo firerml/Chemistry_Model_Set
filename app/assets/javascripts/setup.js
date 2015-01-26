@@ -1,25 +1,24 @@
 var App = {};
+App.geometries = {};
 
 $(function() {
   // basic setup
-  App.dragging = null;
-  App.width = window.innerWidth*0.8;
-  App.height = window.innerHeight;
+  width = window.innerWidth*0.8;
+  height = window.innerHeight;
   $('#container').css('height',window.innerHeight);
   App.clicked = false;
   App.objects = [];
   App.bondHeads = [];
-  App.atoms = [];
   App.highlighted = null;
 
   App.projector = new THREE.Projector();
   App.scene = new THREE.Scene();
   App.renderer = new THREE.WebGLRenderer();
-  App.renderer.setClearColor('lavender', 1);
-  App.renderer.setSize(App.width, App.height);
+  App.renderer.setClearColor('pink', 1);
+  App.renderer.setSize(width, height);
   $('#threejs').append(App.renderer.domElement);
 
-  App.camera = new THREE.PerspectiveCamera(70,App.width/App.height,0.1,1000);
+  App.camera = new THREE.PerspectiveCamera(70,width/height,0.1,1000);
   App.camera.position.set(75,75,60);
   App.controls = new THREE.TrackballControls(App.camera);
   App.loader = new THREE.JSONLoader();
@@ -48,6 +47,11 @@ function addCursorEvents() {
   for (var i = 0; i < ids.length; i++) {
     addClickEvent(ids[i]);
   }
+
+  $('#clear').click(function() {
+    App.objects = [];
+    App.scene.children = App.scene.children.slice(0,8);
+  });
 }
 
 function setLights() {
@@ -74,8 +78,8 @@ function render() {
 }
 
 function getMouseObject() {
-  var mouse3D = new THREE.Vector3( (event.clientX/App.width) * 2 - 1,
-  -1*(event.clientY/App.height) * 2 + 1,
+  var mouse3D = new THREE.Vector3( (event.clientX/width) * 2 - 1,
+  -1*(event.clientY/height) * 2 + 1,
   0.5 );
   mouse3D.unproject(App.camera);
   mouse3D.sub(App.camera.position);

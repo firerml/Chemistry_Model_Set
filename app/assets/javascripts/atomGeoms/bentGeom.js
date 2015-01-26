@@ -1,4 +1,4 @@
-App.bentGeom = {
+App.geometries.bentGeom = {
 
 		"metadata": {
 			"formatVersion" : 3.1,

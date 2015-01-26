@@ -1,4 +1,4 @@
-App.pyramidalGeom =	{
+App.geometries.pyramidalGeom =	{
 
 		"metadata": {
 			"formatVersion" : 3.1,

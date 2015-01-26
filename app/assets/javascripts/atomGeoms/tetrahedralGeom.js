@@ -1,4 +1,4 @@
-App.tetrahedralGeom = {
+App.geometries.tetrahedralGeom = {
 
 		"metadata": {
 			"formatVersion" : 3.1,
