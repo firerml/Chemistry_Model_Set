@@ -111,9 +111,9 @@ function onClick(event) {
   }
   // If the cursor is 'upgrade bond'
   else if ($('html').attr('id') === 'upgrade-bond') {
-    var nextAtom = clickedObj.parent.children[0].children[0];
-    var prevAtom = clickedObj.parent.parent;
-    upgradeBond(clickedObj.parent,nextAtom,prevAtom);
+    var childAtom = clickedObj.parent.children[0].children[0];
+    var parentAtom = clickedObj.parent.parent;
+    upgradeBond(clickedObj.parent,childAtom,parentAtom);
   }
 
   if ($('html').attr('id') !== 'rotate') {

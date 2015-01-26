@@ -1,5 +1,4 @@
 function upgradeBond(bond,childAtom,parentAtom) {
-  console.log(bond.holes);
   changeAtomGeom(childAtom);
   changeAtomGeom(parentAtom, 'yes');
   changeBondGeom(bond);
@@ -11,6 +10,7 @@ function changeAtomGeom(atom, parent) {
     case 'tetrahedral':
       atom.geometry = App.loader.parse(App.trigonalGeom).geometry;
       atom.shape = 'trigonal planar';
+      atom.holeCount = 3;
       if (parent) {
         if (App.objects[0] === atom) {
           atom.fullHoles.push(0);
@@ -32,15 +32,15 @@ function changeAtomGeom(atom, parent) {
       }
       break;
     case 'pyramidal':
-      atom.geometry = App.loader.parse(App.bentGeom).geometry;
-      atom.shape = 'bent'
-      realignBond(atom.bonds[0],0,0,0);
-      atom.fullHoles.push(0);
-      if (atom.bonds.length > 1) {
-        atom.fullHoles.push(3);
-        realignBond(atom.bonds[1],120,0,0);
-      }
-      break;
+      // atom.geometry = App.loader.parse(App.bentGeom).geometry;
+      // atom.shape = 'bent'
+      // realignBond(atom.bonds[0],0,0,0);
+      // atom.fullHoles.push(0);
+      // if (atom.bonds.length > 1) {
+      //   atom.fullHoles.push(3);
+      //   realignBond(atom.bonds[1],120,0,0);
+      // }
+      // break;
     case 'trigonal planar':
       // Note: There will never be a linear molecule with empty holes,
       // so these numbers represent nothing. It is necessary to give the
@@ -49,6 +49,8 @@ function changeAtomGeom(atom, parent) {
       atom.fullHoles.push(-1,-2);
       atom.geometry = App.loader.parse(App.linearGeom).geometry;
       atom.shape = 'linear';
+      atom.holeCount = 2;
+      console.log(atom.bonds);
       if (!parent) realignBond(atom.bonds[0],0,0,0);
       if (atom.bonds.length > 1) {
         realignBond(atom.bonds[1],180,0,0);
