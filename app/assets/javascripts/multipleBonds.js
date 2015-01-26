@@ -30,10 +30,6 @@ function changeAtomGeom(atom, parent) {
         realignBond(atom.bonds[2],240,0,0);
         atom.fullHoles.push(-2);
       }
-      // if (atom.bonds.length > 2) {
-      //   atom.fullHoles.push(10);
-      //   realignBond(atom.bonds[2],240,0,0);
-      // }
       break;
     case 'pyramidal':
       atom.geometry = App.loader.parse(App.bentGeom).geometry;
@@ -53,7 +49,7 @@ function changeAtomGeom(atom, parent) {
       atom.fullHoles.push(-1,-2);
       atom.geometry = App.loader.parse(App.linearGeom).geometry;
       atom.shape = 'linear';
-      realignBond(atom.bonds[0],0,0,0);
+      if (!parent) realignBond(atom.bonds[0],0,0,0);
       if (atom.bonds.length > 1) {
         realignBond(atom.bonds[1],180,0,0);
       }
