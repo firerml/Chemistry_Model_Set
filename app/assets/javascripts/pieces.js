@@ -69,7 +69,6 @@ function colorFaces(atom,color,shape) {
   // }
 
   switch (shape) {
-    // Note: No linear because linear molecules never appear with empty holes
     case 'octahedral':
       makeHoleFaces(4498,4515,0);
       makeHoleFaces(2268,2287,4);
@@ -90,11 +89,13 @@ function colorFaces(atom,color,shape) {
       makeHoleFaces(3567,3598,3);
       break;
     case 'bent':
+      // These checks are only necessary for pieces that are created via the
+      // creation of multiple bonds
       if (atom.fullHoles.indexOf(0) === -1) makeHoleFaces(4680,4697,0);
       if (atom.fullHoles.indexOf(3) === -1) makeHoleFaces(3427,3474,3);
       break;
     case 'one hole':
-      makeHoleFaces(4650,4697,0);
+      if (atom.fullHoles.indexOf(0) === -1) makeHoleFaces(4650,4697,0);
       break;
     case 'trigonal planar':
       if (atom.fullHoles.indexOf(0) === -1) makeHoleFaces(4678,4697,0);
@@ -102,7 +103,7 @@ function colorFaces(atom,color,shape) {
       if (atom.fullHoles.indexOf(10) === -1) makeHoleFaces(718,737,10);
       break;
     case 'linear':
-      // hole 0 will never be empty, since you cannot start with a linear molecule?
+      // hole 0 will never be empty, since you cannot start
       if (atom.fullHoles.indexOf(11) === -1) makeHoleFaces(3200,3247,11)
     }
     return holeFaces;
