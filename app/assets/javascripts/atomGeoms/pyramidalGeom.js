@@ -1,4 +1,4 @@
-App.threeHoleAtom =	{
+App.pyramidalGeom =	{
 
 		"metadata": {
 			"formatVersion" : 3.1,

@@ -1,4 +1,4 @@
-App.sixHoleAtom =	{
+App.octahedralGeom =	{
 
 		"metadata": {
 			"formatVersion" : 3.1,

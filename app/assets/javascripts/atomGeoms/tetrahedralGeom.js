@@ -1,4 +1,4 @@
-App.fourHoleAtom = {
+App.tetrahedralGeom = {
 
 		"metadata": {
 			"formatVersion" : 3.1,

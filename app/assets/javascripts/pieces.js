@@ -1,47 +1,53 @@
 var Atom = function(holes, color, bondHead) {
-  // grabbing the atom geometry object
   var atom;
   var shape;
+  // grabbing the atom geometry object
   switch (holes) {
     case 6:
       shape = 'octahedral';
-      atom = App.loader.parse(App.sixHoleAtom).geometry;
+      atom = App.loader.parse(App.octahedralGeom).geometry;
       break;
     case 4:
       shape = 'tetrahedral';
-      atom = App.loader.parse(App.fourHoleAtom).geometry;
+      atom = App.loader.parse(App.tetrahedralGeom).geometry;
       break;
     case 3:
       shape = 'pyramidal';
-      atom = App.loader.parse(App.threeHoleAtom).geometry;
+      atom = App.loader.parse(App.pyramidalGeom).geometry;
       break;
     case 2:
       shape = 'bent';
-      atom = App.loader.parse(App.twoHoleAtom).geometry;
+      atom = App.loader.parse(App.bentGeom).geometry;
       break;
     case 1:
       shape = 'one hole';
-      atom = App.loader.parse(App.oneHoleAtom).geometry;
+      atom = App.loader.parse(App.oneHoleGeom).geometry;
       break;
   }
 
-  var holeFaces = colorFaces(atom,color,shape);
 
   var material = new THREE.MeshPhongMaterial({vertexColors: THREE.FaceColors});
   atom.colorsNeedUpdate = true;
   this.mesh = new THREE.Mesh(atom, material);
+  this.mesh.fullHoles = [];
+  var holeFaces = colorFaces(this.mesh,color,shape);
   this.mesh.holeHighlighted = -1;
   this.mesh.holeFaces = holeFaces;
   this.mesh.myColor = color;
-  this.mesh.fullHoles = [];
   this.mesh.holeCount = holes;
   this.mesh.shape = shape;
-  if (bondHead) bondHead.add(this.mesh);
+  this.mesh.bonds = [];
+  if (bondHead) {
+    bondHead.add(this.mesh);
+    this.mesh.bonds.push(bondHead.parent);
+    bondHead.parent.holes[this.mesh.uuid] = 0;
+  }
   App.objects.push(this.mesh);
 }
 
-function colorFaces(atomGeom,color,shape) {
-  var holeFaces = [[],[],[],[],[],[],[],[],[],[],[]];
+function colorFaces(atom,color,shape) {
+  atomGeom = atom.geometry;
+  var holeFaces = [[],[],[],[],[],[],[],[],[],[],[],[]];
 
   for (var i = 0; i < atomGeom.faces.length; i++) {
     var face = atomGeom.faces[i];
@@ -59,11 +65,12 @@ function colorFaces(atomGeom,color,shape) {
   };
 
   // Uncomment this to randomize colors
-  for (var i = 0; i < atomGeom.faces.length; i++) {
-    atomGeom.faces[i].color.setHex(Math.random()*0xffffff);
-  }
+  // for (var i = 0; i < atomGeom.faces.length; i++) {
+  //   atomGeom.faces[i].color.setHex(Math.random()*0xffffff);
+  // }
 
   switch (shape) {
+    // Note: No linear because linear molecules never appear with empty holes
     case 'octahedral':
       makeHoleFaces(4498,4515,0);
       makeHoleFaces(2268,2287,4);
@@ -84,19 +91,16 @@ function colorFaces(atomGeom,color,shape) {
       makeHoleFaces(3567,3598,3);
       break;
     case 'bent':
-      makeHoleFaces(4680,4697,0);
-      makeHoleFaces(3427,3474,3);
+      if (atom.fullHoles.indexOf(0) === -1) makeHoleFaces(4680,4697,0);
+      if (atom.fullHoles.indexOf(3) === -1) makeHoleFaces(3427,3474,3);
       break;
     case 'one hole':
       makeHoleFaces(4650,4697,0);
       break;
     case 'trigonal planar':
-      makeHoleFaces(3585,3632,9);
-      makeHoleFaces(718,737,10);
-      // makeHoleFaces(3567,3598,3);
-      break;
-    case 'linear':
-
+      if (atom.fullHoles.indexOf(0) === -1) makeHoleFaces(4678,4697,0);
+      if (atom.fullHoles.indexOf(9) === -1) makeHoleFaces(3585,3632,9);
+      if (atom.fullHoles.indexOf(10) === -1) makeHoleFaces(718,737,10);
       break;
     }
     return holeFaces;
@@ -111,6 +115,9 @@ var SingleBond = function(atom, holeNum) {
   this.bondHead = new THREE.Mesh( new THREE.CylinderGeometry(2, 2, 4, 32), new THREE.MeshPhongMaterial({color: 0xD3D3D3}));
   App.bondHeads.push(this.bondHead);
   this.bond = new THREE.Object3D();
+  atom.bonds.push(this.bond);
+  this.bond.holes = {};
+  this.bond.holes[atom.uuid] = holeNum;
   this.bondBody.pieceName = 'single bond body'
   this.bond.add(this.bondHead, this.bondBody);
   this.bond.position.fromArray(atom.position.toArray());
@@ -128,7 +135,7 @@ var SingleBond = function(atom, holeNum) {
       xRot = 109.47;
       yRot = 120;
       break;
-    case 3:1
+    case 3:
       xRot = 109.47;
       break;
     case 4:

@@ -5,11 +5,12 @@ function onHover(event) {
   if (!App.clicked && hovered && hovered.object.holeFaces
   && $('html').attr('id') === 'single-bond') {
     var atom = hovered.object;
+    console.log('full holes:',atom.fullHoles);
     for (var i = 0; i < atom.holeFaces.length; i++) {
       // If you're hovering on a hole and the hole's empty
-      console.log(atom.holeFaces[i]);
       if (atom.holeFaces[i].indexOf(hovered.face) !== -1
       && atom.fullHoles.indexOf(i) === -1) {
+        console.log(i);
         for (var j = 0; j < atom.holeFaces[i].length; j++) {
           // Highlight the whole hole
           onHole = true;
@@ -29,7 +30,7 @@ function onHover(event) {
     bond: hovered.object.parent, bondHead: hovered.object};
   }
   // If you're hovering on a bond body with children and you aren't holding a piece
-  else if (!$('html').attr('id')
+  else if (!$('html').attr('id') && hovered
   && hovered.object.parent.children[0].children.length
   && hovered.object.pieceName === 'single bond body'
            // the bond body's parent is the 'bond' grouping, children[0] is the
@@ -39,7 +40,8 @@ function onHover(event) {
   }
   // If you're hovering on a bond with children and your cursor is 'bond'
   else if ($('html').attr('id') === 'single-bond' && hovered
-  && hovered.object.pieceName === 'single bond body'
+  && (hovered.object.pieceName === 'single bond body'
+  || hovered.object.pieceName === 'double bond body')
   && hovered.object.parent.children[0].children.length) {
     var nextAtom = hovered.object.parent.children[0].children[0];
     var prevAtom = hovered.object.parent.parent;
@@ -51,7 +53,8 @@ function onHover(event) {
   }
   // If the cursor is 'upgrade bond' and you're not on a bond body
   else if ($('html').attr('id') === 'upgrade-bond'
-  && (!hovered || hovered.object.pieceName !== 'single bond body')) {
+  && (!hovered || (hovered.object.pieceName !== 'single bond body'
+  && hovered.object.pieceName !== 'double bond body'))) {
     $('html').attr('id','single-bond');
   }
   // If the cursor is 'rotate' and you're not on a bond body
@@ -80,7 +83,7 @@ function onClick(event) {
   App.clicked = true;
 
   // Uncomment this to see face indexes on click
-  if (faceIndex) console.log(faceIndex);
+  // if (faceIndex) console.log(faceIndex);
 
   // if this is the first object
   if (App.objects.length === 0 && $('html').attr('class') === 'atom-cursor') {
@@ -91,7 +94,7 @@ function onClick(event) {
   else if (App.highlighted && App.highlighted.object === 'bondHead'
   && clickedObj === App.highlighted.bondHead) {
     var newAtom = addAtom(clickedObj);
-    changeHoleColor(newAtom.mesh.myColor, newAtom);
+    changeHoleColor(newAtom.mesh.myColor, newAtom.mesh);
     newAtom.mesh.fullHoles.push(0);
   }
   // If clickedObj is a hole face
@@ -136,7 +139,7 @@ function addAtom(bond) {
   switch ($('html').attr('id')) {
     case 'black':
       holes = 4;
-      color = 0x363636;
+      color = 0x4F4F4F;
       break;
     case 'white':
       holes = 1;
@@ -172,7 +175,7 @@ function addAtom(bond) {
       break;
     case 'gray':
       holes = 1;
-      color = 0xa9a9a9;
+      color = 0xc2c2c2;
       break;
   }
   var newAtom = new Atom(holes,color,bond);
@@ -184,14 +187,14 @@ function addAtom(bond) {
   return newAtom;
 }
 
-function changeHoleColor(hexColor, newAtom) {
-  if (!newAtom) {
+function changeHoleColor(hexColor, atomMesh, holeNum) {
+  if (!atomMesh) {
     atom = App.highlighted.atom;
     holeNum = App.highlighted.hole;
   }
   else {
-    atom = newAtom.mesh;
-    holeNum = 0;
+    atom = atomMesh;
+    if (!holeNum) holeNum = 0;
   }
   var faces = atom.holeFaces;
   for (var i = 0; i < faces[holeNum].length; i++) {

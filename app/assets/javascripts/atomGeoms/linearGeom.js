@@ -1,4 +1,4 @@
-App.linearTwoHoleAtom =	{
+App.linearGeom =	{
 
 		"metadata": {
 			"formatVersion" : 3.1,

@@ -1,4 +1,4 @@
-App.twoHoleAtom =	{
+App.bentGeom = {
 
 		"metadata": {
 			"formatVersion" : 3.1,

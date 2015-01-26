@@ -1,4 +1,4 @@
-App.oneHoleAtom =	{
+App.oneHoleGeom =	{
 
 		"metadata": {
 			"formatVersion" : 3.1,

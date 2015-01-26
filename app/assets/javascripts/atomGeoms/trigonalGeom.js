@@ -1,4 +1,4 @@
-App.trigonalThreeHoleAtom =	{
+App.trigonalGeom =	{
 
 		"metadata": {
 			"formatVersion" : 3.1,
