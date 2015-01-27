@@ -77,6 +77,10 @@ body {
   cursor: url('rotate.cur'), auto;
 }
 
+#rotateL {
+  cursor: url('rotateL.cur'), auto;
+}
+
 canvas {
   display: block;
 }

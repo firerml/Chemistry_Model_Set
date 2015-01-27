@@ -28,14 +28,15 @@ function onHover(event) {
     App.highlighted = {object: 'bondHead', atom: atom,
     bond: hovered.object.parent, bondHead: hovered.object};
   }
-  // If you're hovering on a bond body with children and you aren't holding a piece
-  else if (!$('html').attr('id') && hovered
+  // If you're hovering on a single bond body with children,
+  // and your cursor isn't an atom
+  // the bond body's parent is the 'bond' grouping, children[0] is the
+  // bond head. Any attached pieces are children of the bond head.
+  else if (!$('html').attr('class') && hovered
   && hovered.object.parent.children[0].children.length
-  && hovered.object.userData.pieceName === 'single bond body'
-           // the bond body's parent is the 'bond' grouping, children[0] is the
-           // bond head. Any attached pieces are children of the bond head.
-           ) {
-    $('html').attr('id','rotate');
+  && hovered.object.userData.pieceName === 'single bond body') {
+    if (event.shiftKey) $('html').attr('id','rotateL');
+    else $('html').attr('id','rotate');
   }
   // If you're hovering on a bond with children and your cursor is 'bond'
   else if ($('html').attr('id') === 'single-bond' && hovered
@@ -57,7 +58,7 @@ function onHover(event) {
     $('html').attr('id','single-bond');
   }
   // If the cursor is 'rotate' and you're not on a bond body
-  else if ($('html').attr('id') === 'rotate'
+  else if (($('html').attr('id') === 'rotate' || $('html').attr('id') === 'rotateL')
   && (!hovered || hovered.object.userData.pieceName !== 'single bond body')) {
     $('html').attr('id','');
   }
@@ -107,6 +108,12 @@ function onClick(event) {
     // clickedObj.object.parent.rotateY(120*Math.PI/180);
     App.bondRotationTimer = setInterval(function() {
       clickedObj.parent.rotateY(2*Math.PI/180);
+    }, 25);
+  }
+  else if ($('html').attr('id') === 'rotateL') {
+    // clickedObj.object.parent.rotateY(120*Math.PI/180);
+    App.bondRotationTimer = setInterval(function() {
+      clickedObj.parent.rotateY(-2*Math.PI/180);
     }, 25);
   }
   // If the cursor is 'upgrade bond'

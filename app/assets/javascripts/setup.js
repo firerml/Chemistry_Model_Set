@@ -60,6 +60,9 @@ $(function() {
   $('html').on('mousemove', onHover);
   $('html').on('mousedown', onClick);
   $('html').on('mouseup', onMouseUp);
+  $('html').on('keydown', function(event) {
+    if (event.shiftKey) $('html').trigger('mousemove');
+  });
 
   addCursorEvents();
 
