@@ -5,23 +5,23 @@ var Atom = function(holes, color, bondHead) {
   switch (holes) {
     case 6:
       shape = 'octahedral';
-      atom = App.loader.parse(App.geometries.octahedralGeom).geometry;
+      atom = App.JSONLoader.parse(App.geometries.octahedralGeom).geometry;
       break;
     case 4:
       shape = 'tetrahedral';
-      atom = App.loader.parse(App.geometries.tetrahedralGeom).geometry;
+      atom = App.JSONLoader.parse(App.geometries.tetrahedralGeom).geometry;
       break;
     case 3:
       shape = 'pyramidal';
-      atom = App.loader.parse(App.geometries.pyramidalGeom).geometry;
+      atom = App.JSONLoader.parse(App.geometries.pyramidalGeom).geometry;
       break;
     case 2:
       shape = 'bent';
-      atom = App.loader.parse(App.geometries.bentGeom).geometry;
+      atom = App.JSONLoader.parse(App.geometries.bentGeom).geometry;
       break;
     case 1:
       shape = 'one hole';
-      atom = App.loader.parse(App.geometries.oneHoleGeom).geometry;
+      atom = App.JSONLoader.parse(App.geometries.oneHoleGeom).geometry;
       break;
   }
 

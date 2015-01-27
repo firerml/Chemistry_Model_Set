@@ -23,7 +23,7 @@ $(function() {
   App.camera = new THREE.PerspectiveCamera(70,width/height,0.1,1000);
   App.camera.position.set(75,75,60);
   App.controls = new THREE.TrackballControls(App.camera);
-  App.loader = new THREE.JSONLoader();
+  App.JSONLoader = new THREE.JSONLoader();
 
   // Event listeners
   App.renderer.domElement.addEventListener('mousemove', onHover);

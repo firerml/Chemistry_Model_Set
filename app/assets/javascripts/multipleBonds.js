@@ -20,7 +20,7 @@ function changeAtomGeom(atom, isParentAtom) {
   atom.userData.fullHoles = [];
   switch(atom.userData.shape) {
     case 'tetrahedral':
-      atom.geometry = App.loader.parse(App.geometries.trigonalGeom).geometry;
+      atom.geometry = App.JSONLoader.parse(App.geometries.trigonalGeom).geometry;
       atom.userData.shape = 'trigonal planar';
       atom.userData.holeCount = 3;
 
@@ -28,15 +28,15 @@ function changeAtomGeom(atom, isParentAtom) {
       atom.userData.fullHoles.push(0);
       if (bonds.length > 1) {
         realignBond(bonds[1],120,0,0);
-        atom.userData.fullHoles.push(-1);
+        atom.userData.fullHoles.push(10);
       }
       if (bonds.length > 2) {
         realignBond(bonds[2],240,0,0);
-        atom.userData.fullHoles.push(-2);
+        atom.userData.fullHoles.push(9);
       }
       break;
     case 'pyramidal':
-      atom.geometry = App.loader.parse(App.geometries.bentGeom).geometry;
+      atom.geometry = App.JSONLoader.parse(App.geometries.bentGeom).geometry;
       atom.userData.shape = 'bent'
       atom.userData.holeCount = 2;
       if (!isParentAtom) realignBond(bonds[0],0,0,0);
@@ -47,7 +47,7 @@ function changeAtomGeom(atom, isParentAtom) {
       }
       break;
     case 'trigonal planar':
-      atom.geometry = App.loader.parse(App.geometries.linearGeom).geometry;
+      atom.geometry = App.JSONLoader.parse(App.geometries.linearGeom).geometry;
       atom.userData.shape = 'linear';
       atom.userData.holeCount = 2;
       if (!isParentAtom) realignBond(bonds[0],0,0,0);
@@ -59,7 +59,7 @@ function changeAtomGeom(atom, isParentAtom) {
       break;
       case 'bent':
         atom.userData.fullHoles.push(0);
-        atom.geometry = App.loader.parse(App.geometries.oneHoleGeom).geometry;
+        atom.geometry = App.JSONLoader.parse(App.geometries.oneHoleGeom).geometry;
         atom.userData.shape = 'one hole';
         atom.userData.holeCount = 1;
         if (!isParentAtom) realignBond(bonds[0],0,0,0);
