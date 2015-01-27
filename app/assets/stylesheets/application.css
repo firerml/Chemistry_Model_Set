@@ -95,8 +95,15 @@ canvas {
   width: 25px;
 }
 
+#undo {
+  background: blue;
+}
+
+#clear {
+  background: red;
+}
+
 .button {
   border-radius: 10px;
-  background: red;
   padding: 1% 0;
 }

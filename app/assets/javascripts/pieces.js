@@ -29,18 +29,18 @@ var Atom = function(holes, color, bondHead) {
   var material = new THREE.MeshPhongMaterial({vertexColors: THREE.FaceColors});
   atom.colorsNeedUpdate = true;
   this.mesh = new THREE.Mesh(atom, material);
-  this.mesh.fullHoles = [];
-  var holeFaces = colorFaces(this.mesh,color,shape);
-  this.mesh.holeHighlighted = -1;
-  this.mesh.holeFaces = holeFaces;
-  this.mesh.myColor = color;
-  this.mesh.holeCount = holes;
-  this.mesh.shape = shape;
-  this.mesh.bonds = [];
+  this.mesh.userData.pieceName = 'atom';
+  this.mesh.userData.fullHoles = [];
+  colorFaces(this.mesh,color,shape);
+  this.mesh.userData.holeHighlighted = -1;
+  this.mesh.userData.myColor = color;
+  this.mesh.userData.holeCount = holes;
+  this.mesh.userData.shape = shape;
+  this.mesh.userData.bonds = [];
   if (bondHead) {
     bondHead.add(this.mesh);
-    this.mesh.bonds.push(bondHead.parent);
-    bondHead.parent.holes[this.mesh.uuid] = 0;
+    this.mesh.userData.bonds.push(bondHead.parent);
+    bondHead.parent.userData.holes[this.mesh.uuid] = 0;
   }
   App.objects.push(this.mesh);
 }
@@ -53,8 +53,6 @@ function colorFaces(atom,color,shape) {
     var face = atomGeom.faces[i];
     face.color.setHex(color);
   }
-
-  // There are more than six holes because a six-hole atom has very different angles
 
   var makeHoleFaces = function(start,stop,holeNum) {
     for (var i = start; i <= stop; i++) {
@@ -84,28 +82,30 @@ function colorFaces(atom,color,shape) {
       makeHoleFaces(611,632,3);
       break;
     case 'pyramidal':
-      makeHoleFaces(4680,4699,0);
+      makeHoleFaces(4680,4699,0);atom.geometry.colorsNeedUpdate = true;
       makeHoleFaces(1036,1053,1);
       makeHoleFaces(3567,3598,3);
       break;
     case 'bent':
       // These checks are only necessary for pieces that are created via the
       // creation of multiple bonds
-      if (atom.fullHoles.indexOf(0) === -1) makeHoleFaces(4680,4697,0);
-      if (atom.fullHoles.indexOf(3) === -1) makeHoleFaces(3427,3474,3);
+      if (atom.userData.fullHoles.indexOf(0) === -1) makeHoleFaces(4680,4697,0);
+      if (atom.userData.fullHoles.indexOf(3) === -1) makeHoleFaces(3427,3474,3);
       break;
     case 'one hole':
-      if (atom.fullHoles.indexOf(0) === -1) makeHoleFaces(4650,4697,0);
+      if (atom.userData.fullHoles.indexOf(0) === -1) makeHoleFaces(4650,4697,0);
       break;
     case 'trigonal planar':
-      if (atom.fullHoles.indexOf(0) === -1) makeHoleFaces(4678,4697,0);
-      if (atom.fullHoles.indexOf(9) === -1) makeHoleFaces(3585,3632,9);
-      if (atom.fullHoles.indexOf(10) === -1) makeHoleFaces(718,737,10);
+      if (atom.userData.fullHoles.indexOf(0) === -1) makeHoleFaces(4678,4697,0);
+      if (atom.userData.fullHoles.indexOf(9) === -1) makeHoleFaces(3585,3632,9);
+      if (atom.userData.fullHoles.indexOf(10) === -1) makeHoleFaces(718,737,10);
       break;
     case 'linear':
       // hole 0 will never be empty, since you cannot start
-      if (atom.fullHoles.indexOf(11) === -1) makeHoleFaces(3200,3247,11)
+      if (atom.userData.fullHoles.indexOf(11) === -1) makeHoleFaces(3200,3247,11)
     }
+    atom.userData.holeFaces = holeFaces;
+    atomGeom.colorsNeedUpdate = true;
     return holeFaces;
   }
 
@@ -116,12 +116,12 @@ var SingleBond = function(atom, holeNum) {
 
   this.bondBody = new THREE.Mesh( new THREE.CylinderGeometry(2, 2, 40, 32), new THREE.MeshPhongMaterial({color: 0xD3D3D3}));
   this.bondHead = new THREE.Mesh( new THREE.CylinderGeometry(2, 2, 4, 32), new THREE.MeshPhongMaterial({color: 0xD3D3D3}));
-  App.bondHeads.push(this.bondHead);
   this.bond = new THREE.Object3D();
-  atom.bonds.push(this.bond);
-  this.bond.holes = {};
-  this.bond.holes[atom.uuid] = holeNum;
-  this.bondBody.pieceName = 'single bond body'
+  atom.userData.bonds.push(this.bond);
+  this.bond.userData.holes = {};
+  this.bond.userData.holes[atom.uuid] = holeNum;
+  this.bondBody.userData.pieceName = 'single bond body'
+  this.bondHead.userData.pieceName = 'bond head'
   this.bond.add(this.bondHead, this.bondBody);
   this.bond.position = atom.position;
   this.bondHead.translateY(22);

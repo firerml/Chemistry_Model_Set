@@ -1,67 +1,69 @@
 function upgradeBond(bond,childAtom,parentAtom) {
+  // App.states.push(App.scene.clone());
   changeAtomGeom(childAtom);
   changeAtomGeom(parentAtom, true);
   changeBondGeom(bond);
 }
 
 function changeAtomGeom(atom, isParentAtom) {
-  atom.fullHoles = [];
-  switch(atom.shape) {
+  console.log(atom);
+  atom.userData.fullHoles = [];
+  switch(atom.userData.shape) {
     case 'tetrahedral':
       atom.geometry = App.loader.parse(App.geometries.trigonalGeom).geometry;
-      atom.shape = 'trigonal planar';
-      atom.holeCount = 3;
+      atom.userData.shape = 'trigonal planar';
+      atom.userData.holeCount = 3;
       if (isParentAtom) {
         if (App.objects[0] === atom) {
-          atom.fullHoles.push(0);
-          realignBond(atom.bonds[0],0,0,0);
+          atom.userData.fullHoles.push(0);
+          realignBond(atom.userData.bonds[0],0,0,0);
         }
-        else atom.fullHoles.push(10);
+        else atom.userData.fullHoles.push(10);
       }
       else {
-        atom.fullHoles.push(0);
-        realignBond(atom.bonds[0],0,0,0);
+        atom.userData.fullHoles.push(0);
+        realignBond(atom.userData.bonds[0],0,0,0);
       }
-      if (atom.bonds.length > 1) {
-        realignBond(atom.bonds[1],120,0,0);
-        atom.fullHoles.push(-1);
+      if (atom.userData.bonds.length > 1) {
+        realignBond(atom.userData.bonds[1],120,0,0);
+        atom.userData.fullHoles.push(-1);
       }
-      if (atom.bonds.length > 2) {
-        realignBond(atom.bonds[2],240,0,0);
-        atom.fullHoles.push(-2);
+      if (atom.userData.bonds.length > 2) {
+        realignBond(atom.userData.bonds[2],240,0,0);
+        atom.userData.fullHoles.push(-2);
       }
       break;
     case 'pyramidal':
       atom.geometry = App.loader.parse(App.geometries.bentGeom).geometry;
-      atom.shape = 'bent'
-      atom.holeCount = 2;
-      if (!isParentAtom) realignBond(atom.bonds[0],0,0,0);
-      atom.fullHoles.push(0);
-      if (atom.bonds.length > 1) {
-        realignBond(atom.bonds[1],120,0,0);
-        atom.fullHoles.push(3);
+      atom.userData.shape = 'bent'
+      atom.userData.holeCount = 2;
+      if (!isParentAtom) realignBond(atom.userData.bonds[0],0,0,0);
+      atom.userData.fullHoles.push(0);
+      if (atom.userData.bonds.length > 1) {
+        realignBond(atom.userData.bonds[1],120,0,0);
+        atom.userData.fullHoles.push(3);
       }
       break;
     case 'trigonal planar':
       atom.geometry = App.loader.parse(App.geometries.linearGeom).geometry;
-      atom.shape = 'linear';
-      atom.holeCount = 2;
-      if (!isParentAtom) realignBond(atom.bonds[0],0,0,0);
-      atom.fullHoles.push(0);
-      if (atom.bonds.length > 1) {
-        realignBond(atom.bonds[1],180,0,0);
-        atom.fullHoles.push(11);
+      atom.userData.shape = 'linear';
+      atom.userData.holeCount = 2;
+      if (!isParentAtom) realignBond(atom.userData.bonds[0],0,0,0);
+      atom.userData.fullHoles.push(0);
+      if (atom.userData.bonds.length > 1) {
+        realignBond(atom.userData.bonds[1],180,0,0);
+        atom.userData.fullHoles.push(11);
       }
       break;
       case 'bent':
-        atom.fullHoles.push(0);
+        atom.userData.fullHoles.push(0);
         atom.geometry = App.loader.parse(App.geometries.oneHoleGeom).geometry;
-        atom.shape = 'one hole';
-        atom.holeCount = 1;
-        if (!isParentAtom) realignBond(atom.bonds[0],0,0,0);
+        atom.userData.shape = 'one hole';
+        atom.userData.holeCount = 1;
+        if (!isParentAtom) realignBond(atom.userData.bonds[0],0,0,0);
         break;
   }
-  atom.holeFaces = colorFaces(atom,atom.myColor,atom.shape);
+  atom.userData.holeFaces = colorFaces(atom,atom.userData.myColor,atom.userData.shape);
 }
 
 function realignBond(bond,rotXDeg,rotYDeg,rotZDeg) {
@@ -71,9 +73,9 @@ function realignBond(bond,rotXDeg,rotYDeg,rotZDeg) {
 }
 
 function changeBondGeom(bond) {
-  switch (bond.children[1].pieceName) {
+  switch (bond.children[1].userData.pieceName) {
     case 'single bond body':
-      bond.children[1].pieceName = 'double bond body';
+      bond.children[1].userData.pieceName = 'double bond body';
       var cyl1 = new THREE.CylinderGeometry(1, 1, 40, 32);
       var cyl2 = cyl1.clone();
       var matrix1 = new THREE.Matrix4();
@@ -85,7 +87,7 @@ function changeBondGeom(bond) {
       bond.children[1].geometry = cyl1;
       break;
     case 'double bond body':
-      bond.children[1].pieceName = 'triple bond body';
+      bond.children[1].userData.pieceName = 'triple bond body';
       var cyl1 = new THREE.CylinderGeometry(0.5, 0.5, 40, 32);
       var cyl2 = cyl1.clone();
       var cyl3 = cyl1.clone();

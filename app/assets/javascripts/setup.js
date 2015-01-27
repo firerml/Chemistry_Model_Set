@@ -8,8 +8,8 @@ $(function() {
   $('#container').css('height',window.innerHeight);
   App.clicked = false;
   App.objects = [];
-  App.bondHeads = [];
   App.highlighted = null;
+  App.states = [];
 
   App.projector = new THREE.Projector();
   App.scene = new THREE.Scene();
@@ -49,8 +49,28 @@ function addCursorEvents() {
   }
 
   $('#clear').click(function() {
+    App.scene.remove(App.objects[0]);
     App.objects = [];
-    App.scene.children = App.scene.children.slice(0,8);
+  });
+
+  $('#undo').click(function() {
+    App.scene.remove(App.objects[0]);
+    App.scene = App.states[App.states.length - 1];
+    App.states.pop();
+
+    App.objects = [];
+    var updateObjectsList = function(object) {
+      App.objects.push(object);
+      if (object.userData.pieceName === 'atom') {
+        colorFaces(object,object.userData.myColor,object.userData.shape);
+      }
+      if (object.children.length) {
+        for (var i = 0; i < object.children.length; i++) {
+          updateObjectsList(object.children[i]);
+        }
+      }
+    }
+    if (App.scene.children[8]) updateObjectsList(App.scene.children[8]);
   });
 }
 
