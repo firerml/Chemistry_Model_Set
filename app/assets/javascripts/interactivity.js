@@ -32,7 +32,9 @@ function onHover(event) {
   // and your cursor isn't an atom
   // the bond body's parent is the 'bond' grouping, children[0] is the
   // bond head. Any attached pieces are children of the bond head.
-  else if (!$('html').attr('class') && hovered
+  else if (!$('html').attr('class') && $('html').attr('id') !== 'single-bond'
+  && $('html').attr('id') !== 'upgrade-bond'
+  && hovered
   && hovered.object.parent.children[0].children.length
   && hovered.object.userData.pieceName === 'single bond body') {
     if (event.shiftKey) $('html').attr('id','rotateL');
