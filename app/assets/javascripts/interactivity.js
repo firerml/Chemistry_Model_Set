@@ -1,18 +1,21 @@
 function onHover(event) {
-  console.log('hi');
   var hovered = getMouseObject(event);
   var onHole = false;
   // If you're hovering on an atom and the cursor's a single bond
   if (!App.clicked && hovered && hovered.object.userData.pieceName === 'atom'
   && $('html').attr('id') === 'single-bond') {
     var atom = hovered.object;
-    for (var i = 0; i < atom.userData.holeFaces.length; i++) {
-      // If you're hovering on a hole and the hole's empty
-      if (atom.userData.holeFaces[i].indexOf(hovered.face) !== -1
-      && atom.userData.fullHoles.indexOf(i) === -1) {
-          changeHoleColor(0xD90065, atom, i);
+    // If you're hovering on a hole and the hole's empty:
+    // For each hole this atom has,
+    for (var i = 0; i < atom.userData.holeFaceNums.length; i++) {
+      var holeNum = atom.userData.holeFaceNums[i];
+      // if you're hovering on a face in that hole
+      if (App.holeFaces[holeNum][0] <= hovered.faceIndex && hovered.faceIndex <= App.holeFaces[holeNum][1]
+      // and the hole isn't full
+      && atom.userData.fullHoles.indexOf(holeNum) === -1) {
+          changeHoleColor(0xD90065, atom, holeNum);
           onHole = true;
-        App.highlighted = {object: 'hole', atom: atom, hole: i, face: hovered};
+        App.highlighted = {object: 'hole', atom: atom, hole: holeNum, face: hovered};
       }
     }
   }
@@ -194,9 +197,9 @@ function changeHoleColor(hexColor, atomMesh, holeNum) {
     atom = atomMesh;
     if (!holeNum) holeNum = 0;
   }
-  var faces = atom.userData.holeFaces;
-  for (var i = 0; i < faces[holeNum].length; i++) {
-    faces[holeNum][i].color.setHex(hexColor);
+  // for all of the faceIndexes of this hole
+  for (var i = App.holeFaces[holeNum][0]; i <= App.holeFaces[holeNum][1]; i++) {
+    atom.geometry.faces[i].color.setHex(hexColor);
   }
   atom.geometry.colorsNeedUpdate = true;
   App.highlighted = null;

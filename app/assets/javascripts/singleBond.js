@@ -22,9 +22,9 @@ var SingleBond = function(atom, holeNum) {
   this.bond.position = atom.position;
   this.bondHead.translateY(22);
 
+  // Several numbers are missing because they get no rotation.
   switch(holeNum) {
-    case 0:
-      break;
+    case 5:
     case 1:
       xRot = 109.47;
       yRot = 240;
@@ -33,34 +33,16 @@ var SingleBond = function(atom, holeNum) {
       xRot = 109.47;
       yRot = 120;
       break;
+    case 8:
+    case 6:
     case 3:
       xRot = 109.47;
       break;
-    case 4:
-      zRot = 90;
-      break;
-    case 5:
-      zRot = 180;
-      break;
-    case 6:
-      zRot = 270;
-      break;
-    case 7:
-      yRot = 90;
-      zRot = 90;
-      break;
-    case 8:
-      yRot = 270;
-      zRot = 90;
-      break;
-    case 9:
+    case 11:
       xRot = 240;
       break;
-    case 10:
+    case 12:
       xRot = 120;
-      break;
-    case 11:
-      xRot = 180;
       break;
     }
 

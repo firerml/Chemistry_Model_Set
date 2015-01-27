@@ -21,14 +21,14 @@ function changeAtomGeom(atom, isParentAtom) {
       atom.userData.holeCount = 3;
 
       if (!isParentAtom) realignBond(bonds[0],0,0,0);
-      atom.userData.fullHoles.push(0);
+      atom.userData.fullHoles.push(10);
       if (bonds.length > 1) {
         realignBond(bonds[1],120,0,0);
-        atom.userData.fullHoles.push(10);
+        atom.userData.fullHoles.push(12);
       }
       if (bonds.length > 2) {
         realignBond(bonds[2],240,0,0);
-        atom.userData.fullHoles.push(9);
+        atom.userData.fullHoles.push(11);
       }
       break;
     case 'pyramidal':
@@ -36,10 +36,10 @@ function changeAtomGeom(atom, isParentAtom) {
       atom.userData.shape = 'bent'
       atom.userData.holeCount = 2;
       if (!isParentAtom) realignBond(bonds[0],0,0,0);
-      atom.userData.fullHoles.push(0);
+      atom.userData.fullHoles.push(7);
       if (bonds.length > 1) {
         realignBond(bonds[1],120,0,0);
-        atom.userData.fullHoles.push(3);
+        atom.userData.fullHoles.push(8);
       }
       break;
     case 'trigonal planar':
@@ -47,21 +47,23 @@ function changeAtomGeom(atom, isParentAtom) {
       atom.userData.shape = 'linear';
       atom.userData.holeCount = 2;
       if (!isParentAtom) realignBond(bonds[0],0,0,0);
-      atom.userData.fullHoles.push(0);
+      // it doesn't matter what this number is,
+      // since the first hole is never empty.
+      atom.userData.fullHoles.push(-1);
       if (bonds.length > 1) {
         realignBond(bonds[1],180,0,0);
-        atom.userData.fullHoles.push(11);
+        atom.userData.fullHoles.push(13);
       }
       break;
       case 'bent':
-        atom.userData.fullHoles.push(0);
         atom.geometry = App.JSONLoader.parse(App.geometries.oneHoleGeom).geometry;
         atom.userData.shape = 'one hole';
         atom.userData.holeCount = 1;
         if (!isParentAtom) realignBond(bonds[0],0,0,0);
+        atom.userData.fullHoles.push(9);
         break;
   }
-  atom.userData.holeFaces = colorFaces(atom,atom.userData.myColor,atom.userData.shape);
+  colorFaces(atom,atom.userData.myColor,atom.userData.shape);
 }
 
 function realignBond(bond,rotXDeg,rotYDeg,rotZDeg) {

@@ -14,6 +14,35 @@ $(function() {
   App.bonds = [];
   App.atomCount = 0;
   App.atoms = [];
+  App.holeFaces = [
+    // tetrahedral: 0,1,2,3
+    [3250,3297],
+    [4560,4581],
+    [1943,1966],
+    [611,632],
+    // pyramidal: 4,5,6
+    [4680,4699],
+    [1036,1053],
+    [3567,3598],
+    // bent: 7,8
+    [4680,4697],
+    [3427,3474],
+    // one hole: 9
+    [4650,4697],
+    // trigonal planar: 10,11,12
+    [4678,4697],
+    [3585,3632],
+    [718,737],
+    // linear: 13 (linear's first hole always starts full)
+    [3200,3247]
+    // octahedral:
+    // [4498,4515],
+    // [2268,2287],
+    // [794,811],
+    // [2058,2077],
+    // [362,409],
+    // [3380,3427]
+  ];
 
   App.projector = new THREE.Projector();
   App.scene = new THREE.Scene();
@@ -47,18 +76,29 @@ function addCursorEvents() {
     });
   }
 
-  var addKeyboardEvents = function(ids) {
+  var addKeyboardEvents = function() {
+    var keyIDs = {
+      // q, w, e
+      81: 'black', 87: 'white', 69: 'red',
+      // a, s, d
+      65: 'blue3', 83: 'blue4', 68: 'yellow4',
+      // z, x, c
+      90: 'green', 88: 'purple', 67: 'gray',
+      // f
+      70: 'single-bond'
+
+    }
     $('html').keydown(function(event) {
-      if (ids[event.keyCode - 48]) {
-        $('html').attr('id',ids[event.keyCode - 48]);
-        if (ids[event.keyCode - 48] !== 'single-bond') $('html').addClass('atom-cursor');
+      if (keyIDs[event.keyCode.toString()]) {
+        $('html').attr('id',keyIDs[event.keyCode]);
+        if (keyIDs[event.keyCode] !== 'single-bond') $('html').addClass('atom-cursor');
         $('html').trigger('mousemove');
       }
     });
   }
 
-  var ids = ['gray','single-bond','black','white','red','blue3','blue4','yellow4',
-             'green','purple'];
+  var ids = ['single-bond','black','white','red','blue3','blue4','yellow4',
+             'green','purple','gray'];
   for (var i = 0; i < ids.length; i++) {
     addClickEvent(ids[i]);
   }
