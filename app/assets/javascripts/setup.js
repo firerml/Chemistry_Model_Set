@@ -10,6 +10,8 @@ $(function() {
   App.objects = [];
   App.highlighted = null;
   App.states = [];
+  App.bondCount = 0;
+  App.bonds = [];
 
   App.projector = new THREE.Projector();
   App.scene = new THREE.Scene();
@@ -49,8 +51,10 @@ function addCursorEvents() {
   }
 
   $('#clear').click(function() {
+    App.states.push(App.scene.clone());
     App.scene.remove(App.objects[0]);
     App.objects = [];
+    App.bonds = [];
   });
 
   $('#undo').click(function() {
@@ -58,11 +62,16 @@ function addCursorEvents() {
     App.scene = App.states[App.states.length - 1];
     App.states.pop();
 
+    App.bonds = [];
     App.objects = [];
     var updateObjectsList = function(object) {
-      App.objects.push(object);
+      // No bond groups, just the bond pieces.
+      if (object.type !== 'Object3D') App.objects.push(object);
       if (object.userData.pieceName === 'atom') {
         colorFaces(object,object.userData.myColor,object.userData.shape);
+      }
+      else if (object.userData.pieceName === 'bond head') {
+        App.bonds.push(object.parent);
       }
       if (object.children.length) {
         for (var i = 0; i < object.children.length; i++) {

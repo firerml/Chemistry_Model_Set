@@ -36,10 +36,10 @@ var Atom = function(holes, color, bondHead) {
   this.mesh.userData.myColor = color;
   this.mesh.userData.holeCount = holes;
   this.mesh.userData.shape = shape;
-  this.mesh.userData.bonds = [];
+  this.mesh.userData.bondIDs = [];
   if (bondHead) {
     bondHead.add(this.mesh);
-    this.mesh.userData.bonds.push(bondHead.parent);
+    this.mesh.userData.bondIDs.push(bondHead.parent.userData.id);
     bondHead.parent.userData.holes[this.mesh.uuid] = 0;
   }
   App.objects.push(this.mesh);
@@ -68,23 +68,23 @@ function colorFaces(atom,color,shape) {
 
   switch (shape) {
     case 'octahedral':
-      makeHoleFaces(4498,4515,0);
-      makeHoleFaces(2268,2287,4);
-      makeHoleFaces(794,811,5);
-      makeHoleFaces(2058,2077,6);
-      makeHoleFaces(362,409,7);
-      makeHoleFaces(3380,3427,8);
+      if (atom.userData.fullHoles.indexOf(0) === -1) makeHoleFaces(4498,4515,0);
+      if (atom.userData.fullHoles.indexOf(4) === -1) makeHoleFaces(2268,2287,4);
+      if (atom.userData.fullHoles.indexOf(5) === -1) makeHoleFaces(794,811,5);
+      if (atom.userData.fullHoles.indexOf(6) === -1) makeHoleFaces(2058,2077,6);
+      if (atom.userData.fullHoles.indexOf(7) === -1) makeHoleFaces(362,409,7);
+      if (atom.userData.fullHoles.indexOf(8) === -1) makeHoleFaces(3380,3427,8);
       break;
     case 'tetrahedral':
-      makeHoleFaces(3250,3297,0);
-      makeHoleFaces(4560,4581,1);
-      makeHoleFaces(1943,1966,2);
-      makeHoleFaces(611,632,3);
+      if (atom.userData.fullHoles.indexOf(0) === -1) makeHoleFaces(3250,3297,0);
+      if (atom.userData.fullHoles.indexOf(1) === -1) makeHoleFaces(4560,4581,1);
+      if (atom.userData.fullHoles.indexOf(2) === -1) makeHoleFaces(1943,1966,2);
+      if (atom.userData.fullHoles.indexOf(3) === -1) makeHoleFaces(611,632,3);
       break;
     case 'pyramidal':
-      makeHoleFaces(4680,4699,0);atom.geometry.colorsNeedUpdate = true;
-      makeHoleFaces(1036,1053,1);
-      makeHoleFaces(3567,3598,3);
+      if (atom.userData.fullHoles.indexOf(0) === -1) makeHoleFaces(4680,4699,0);
+      if (atom.userData.fullHoles.indexOf(1) === -1) makeHoleFaces(1036,1053,1);
+      if (atom.userData.fullHoles.indexOf(3) === -1) makeHoleFaces(3567,3598,3);
       break;
     case 'bent':
       // These checks are only necessary for pieces that are created via the
@@ -108,70 +108,3 @@ function colorFaces(atom,color,shape) {
     atomGeom.colorsNeedUpdate = true;
     return holeFaces;
   }
-
-var SingleBond = function(atom, holeNum) {
-  var xRot = 0;
-  var yRot = 0;
-  var zRot = 0;
-
-  this.bondBody = new THREE.Mesh( new THREE.CylinderGeometry(2, 2, 40, 32), new THREE.MeshPhongMaterial({color: 0xD3D3D3}));
-  this.bondHead = new THREE.Mesh( new THREE.CylinderGeometry(2, 2, 4, 32), new THREE.MeshPhongMaterial({color: 0xD3D3D3}));
-  this.bond = new THREE.Object3D();
-  atom.userData.bonds.push(this.bond);
-  this.bond.userData.holes = {};
-  this.bond.userData.holes[atom.uuid] = holeNum;
-  this.bondBody.userData.pieceName = 'single bond body'
-  this.bondHead.userData.pieceName = 'bond head'
-  this.bond.add(this.bondHead, this.bondBody);
-  this.bond.position = atom.position;
-  this.bondHead.translateY(22);
-
-  switch(holeNum) {
-    case 0:
-      break;
-    case 1:
-      xRot = 109.47;
-      yRot = 240;
-      break;
-    case 2:
-      xRot = 109.47;
-      yRot = 120;
-      break;
-    case 3:
-      xRot = 109.47;
-      break;
-    case 4:
-      zRot = 90;
-      break;
-    case 5:
-      zRot = 180;
-      break;
-    case 6:
-      zRot = 270;
-      break;
-    case 7:
-      yRot = 90;
-      zRot = 90;
-      break;
-    case 8:
-      yRot = 270;
-      zRot = 90;
-      break;
-    case 9:
-      xRot = 240;
-      break;
-    case 10:
-      xRot = 120;
-      break;
-    case 11:
-      xRot = 180;
-      break;
-  }
-
-  if (yRot) this.bond.rotateY(yRot*Math.PI/180);
-  if (xRot) this.bond.rotateX(xRot*Math.PI/180);
-  if (zRot) this.bond.rotateZ(zRot*Math.PI/180);
-  this.bond.translateY(16);
-  atom.add(this.bond);
-  App.objects.push(this.bondBody, this.bondHead);
-}
