@@ -28,9 +28,9 @@ $(function() {
   App.JSONLoader = new THREE.JSONLoader();
 
   // Event listeners
-  App.renderer.domElement.addEventListener('mousemove', onHover);
-  App.renderer.domElement.addEventListener('mousedown', onClick);
-  App.renderer.domElement.addEventListener('mouseup', onMouseUp);
+  $('html').on('mousemove', onHover);
+  $('html').on('mousedown', onClick);
+  $('html').on('mouseup', onMouseUp);
 
   addCursorEvents();
 
@@ -40,72 +40,29 @@ $(function() {
 });
 
 function addCursorEvents() {
-  var addClickEvent = function(id,color) {
+  var addClickEvent = function(id) {
     $('#' + id + '-big').on('click',function() {
       $('html').attr('id',id);
       if (id !== 'single-bond') $('html').addClass('atom-cursor');
     });
   }
 
-  $('html').keydown(function(event) {
-    switch (event.keyCode) {
-      //1
-      case 49:
-        $('html').attr('id','single-bond');
-        break;
-      // 2
-      case 50:
-        $('html').attr('id','black');
-        $('html').addClass('atom-cursor');
-        break;
-      // 3
-      case 51:
-        $('html').attr('id','white');
-        $('html').addClass('atom-cursor');
-        break;
-      // 4
-      case 52:
-        $('html').attr('id','red');
-        $('html').addClass('atom-cursor');
-        break;
-      // 5
-      case 53:
-        $('html').attr('id','blue3');
-        $('html').addClass('atom-cursor');
-        break;
-      // 6
-      case 54:
-        $('html').attr('id','blue4');
-        $('html').addClass('atom-cursor');
-        break;
-      // 7
-      case 55:
-        $('html').attr('id','yellow4');
-        $('html').addClass('atom-cursor');
-        break;
-      // 8
-      case 56:
-        $('html').attr('id','green');
-        $('html').addClass('atom-cursor');
-        break;
-      // 9
-      case 57:
-        $('html').attr('id','purple');
-        $('html').addClass('atom-cursor');
-        break;
-      // 0
-      case 48:
-        $('html').attr('id','gray');
-        $('html').addClass('atom-cursor');
-        break;
-    }
-  })
+  var addKeyboardEvents = function(ids) {
+    $('html').keydown(function(event) {
+      if (ids[event.keyCode - 48]) {
+        $('html').attr('id',ids[event.keyCode - 48]);
+        if (ids[event.keyCode - 48] !== 'single-bond') $('html').addClass('atom-cursor');
+        $('html').trigger('mousemove');
+      }
+    });
+  }
 
-  var ids = ['black','white','red','blue3','blue4','yellow4','yellow6',
-             'green','purple','gray','single-bond'];
+  var ids = ['gray','single-bond','black','white','red','blue3','blue4','yellow4',
+             'green','purple'];
   for (var i = 0; i < ids.length; i++) {
     addClickEvent(ids[i]);
   }
+  addKeyboardEvents(ids);
 
   $('#clear').click(function() {
     App.states.push(App.scene.clone());

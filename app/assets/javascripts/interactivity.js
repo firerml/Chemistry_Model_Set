@@ -1,4 +1,5 @@
 function onHover(event) {
+  console.log('hi');
   var hovered = getMouseObject(event);
   var onHole = false;
   // If you're hovering on an atom and the cursor's a single bond
