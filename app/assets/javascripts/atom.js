@@ -42,6 +42,9 @@ var Atom = function(holes, color, bondHead) {
     this.mesh.userData.bondIDs.push(bondHead.parent.userData.id);
     bondHead.parent.userData.holes[this.mesh.uuid] = 0;
   }
+  this.mesh.userData.id = App.atomCount;
+  App.atomCount++;
+  App.atoms.push(this.mesh);
   App.objects.push(this.mesh);
 }
 

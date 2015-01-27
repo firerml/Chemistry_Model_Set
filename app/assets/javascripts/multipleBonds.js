@@ -1,5 +1,4 @@
 function upgradeBond(bond,childAtom,parentAtom) {
-  console.log(bond);
   App.states.push(App.scene.clone());
   changeAtomGeom(childAtom);
   changeAtomGeom(parentAtom, true);
@@ -8,15 +7,12 @@ function upgradeBond(bond,childAtom,parentAtom) {
 
 function changeAtomGeom(atom, isParentAtom) {
   var bonds = [];
-  console.log(atom.userData.bondIDs);
-  console.log(App.bonds);
   for (var i = 0; i < App.bonds.length; i++) {
     if (atom.userData.bondIDs.indexOf(App.bonds[i].userData.id) !== -1) {
       bonds.push(App.bonds[i]);
     }
   }
 
-  console.log(bonds);
   atom.userData.fullHoles = [];
   switch(atom.userData.shape) {
     case 'tetrahedral':

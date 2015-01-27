@@ -2,7 +2,7 @@ function onHover(event) {
   var hovered = getMouseObject(event);
   var onHole = false;
   // If you're hovering on an atom and the cursor's a single bond
-  if (!App.clicked && hovered && hovered.object.userData.holeFaces
+  if (!App.clicked && hovered && hovered.object.userData.pieceName === 'atom'
   && $('html').attr('id') === 'single-bond') {
     var atom = hovered.object;
     for (var i = 0; i < atom.userData.holeFaces.length; i++) {

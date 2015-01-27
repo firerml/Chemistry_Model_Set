@@ -12,6 +12,8 @@ $(function() {
   App.states = [];
   App.bondCount = 0;
   App.bonds = [];
+  App.atomCount = 0;
+  App.atoms = [];
 
   App.projector = new THREE.Projector();
   App.scene = new THREE.Scene();
