@@ -111,16 +111,21 @@ function addCursorEvents() {
   $('#clear').click(clearScreen);
 
   $('#load').click(function() {
-    $('#modal').fadeIn(250);
+    $('#load-save-modal').fadeIn(250);
   });
 
-  $('#close').click(function() {
-    $('#modal').fadeOut(250);
+  $('#instructions').click(function() {
+    $('#instructions-modal').fadeIn(250);
+  });
+
+  $('.close').click(function() {
+    console.log($(this).closest('.modal'));
+    $(this).closest('.modal').fadeOut(250);
   });
 
   $('li').click(function() {
     var molID = $(this).attr('id');
-    $('#modal').fadeOut(250, function() {
+    $('#load-save-modal').fadeOut(250, function() {
       $.get('/molecules/' + molID, loadMolecule);
     });
   });
@@ -137,16 +142,19 @@ function addCursorEvents() {
   $('#save-button').click(function() {
     var name = $('#molecule-name-input').val();
     if (name) {
-      $('#modal').fadeOut(250, function() {
+      $('#load-save-modal').fadeOut(250, function() {
         saveMolecule(name);
       });
     }
   });
 
+
   $('#undo').click(function() {
     App.scene.remove(App.objects[0]);
     App.scene = App.states[App.states.length - 1];
     App.states.pop();
+    // if the last thing you did was clear the screen, bring the instructions back
+    if (!App.objects.length) App.instructions = App.tempInstructions;
 
     App.bonds = [];
     App.objects = [];
@@ -206,12 +214,13 @@ function getMouseObject() {
 }
 
 function clearScreen() {
-  App.states.push(App.scene.clone());
+  App.instructions = [];
+  App.states = [];
+  // App.states.push(App.scene.clone());
   App.scene.remove(App.objects[0]);
   App.objects = [];
   App.bonds = [];
   App.atoms = [];
   App.atomCount = 0;
   App.bondCount = 0;
-  App.instructions = [];
 }

@@ -9,59 +9,66 @@
 <body>
   <div id='threejs'></div>
   <div id='toolbar'>
-    <table id='piece-container'>
-      <tr>
-        <td class='piece-info'>
-          <%= image_tag('black.png', {class: 'piece', id: 'black-big'}) %>
-        </td>
-        <td class='piece-info'>
-          <%= image_tag('white.png', {class: 'piece', id: 'white-big'}) %>
-        </td>
-        <td class='piece-info'>
-          <%= image_tag('red.png', {class: 'piece', id: 'red-big'}) %>
-        </td>
-        <td class='piece-info'>
-          <%= image_tag('blue3.png', {class: 'piece', id: 'blue3-big'}) %>
-        </td>
-        <td class='piece-info'>
-          <%= image_tag('blue4.png', {class: 'piece', id: 'blue4-big'}) %>
-        </td>
-      </tr>
-      <tr>
-        <td>C</td>
-        <td>H</td>
-        <td>O</td>
-        <td>N (3)</td>
-        <td>N (4)</td>
-      </tr>
-      <tr>
-        <td class='piece-info'>
-          <%= image_tag('yellow4.png', {class: 'piece', id: 'yellow4-big'}) %>
-        </td>
-        <!-- <td class='piece-info'>
-          <%= image_tag('yellow6.png', {class: 'piece', id: 'yellow6-big'}) %>
-        </td> -->
-        <td class='piece-info'>
-          <%= image_tag('green.png', {class: 'piece', id: 'green-big'}) %>
-        </td>
-        <td class='piece-info'>
-          <%= image_tag('purple.png', {class: 'piece', id: 'purple-big'}) %>
-        </td>
-        <td class='piece-info'>
-          <%= image_tag('gray.png', {class: 'piece', id: 'gray-big'}) %>
-        </td>
-      </tr>
-      <tr>
-        <td>S (4)</td>
-        <!-- <td>S (6)</td> -->
-        <td>Halogen</td>
-        <td>P</td>
-        <td>Metal</td>
-      </tr>
-    </table>
-    <div>
-        <%= image_tag('singlebond.png', {class: 'piece', id: 'single-bond-big'}) %>
-      <p>Add Bond/Raise Bond Level</p>
+    <h1>Easy Chem</h1>
+    <h3>Mike Firer</h3>
+    <div id='instructions' class='button'>
+      <p>Instructions</p>
+    </div>
+    <div id='piece-container'>
+      <table>
+        <tr>
+          <td class='piece-info'>
+            <%= image_tag('black.png', {class: 'piece', id: 'black-big'}) %>
+          </td>
+          <td class='piece-info'>
+            <%= image_tag('white.png', {class: 'piece', id: 'white-big'}) %>
+          </td>
+          <td class='piece-info'>
+            <%= image_tag('red.png', {class: 'piece', id: 'red-big'}) %>
+          </td>
+          <td class='piece-info'>
+            <%= image_tag('blue3.png', {class: 'piece', id: 'blue3-big'}) %>
+          </td>
+          <td class='piece-info'>
+            <%= image_tag('blue4.png', {class: 'piece', id: 'blue4-big'}) %>
+          </td>
+        </tr>
+        <tr>
+          <td>C</td>
+          <td>H</td>
+          <td>O</td>
+          <td>N (3)</td>
+          <td>N (4)</td>
+        </tr>
+        <tr>
+          <td class='piece-info'>
+            <%= image_tag('yellow4.png', {class: 'piece', id: 'yellow4-big'}) %>
+          </td>
+          <!-- <td class='piece-info'>
+            <%= image_tag('yellow6.png', {class: 'piece', id: 'yellow6-big'}) %>
+          </td> -->
+          <td class='piece-info'>
+            <%= image_tag('green.png', {class: 'piece', id: 'green-big'}) %>
+          </td>
+          <td class='piece-info'>
+            <%= image_tag('purple.png', {class: 'piece', id: 'purple-big'}) %>
+          </td>
+          <td class='piece-info'>
+            <%= image_tag('gray.png', {class: 'piece', id: 'gray-big'}) %>
+          </td>
+        </tr>
+        <tr>
+          <td>S (4)</td>
+          <!-- <td>S (6)</td> -->
+          <td>Halogen</td>
+          <td>P</td>
+          <td>Metal</td>
+        </tr>
+      </table>
+      <div>
+          <%= image_tag('singlebond.png', {class: 'piece', id: 'single-bond-big'}) %>
+        <p>Add Bond/Raise Bond Level</p>
+      </div>
     </div>
     <div id='undo' class='button'>
       <p>Undo</p>
@@ -74,25 +81,57 @@
       <p>Save/Load Molecule</p>
     </div>
 
-
   </div>
-  <div id='modal' style='display:none;'>
-    <span id='close'>X</span>
+
+  <div id='load-save-modal' style='display:none;' class='modal'>
+    <span class='close'>X</span>
     <div id='save'>
       <h3>SAVE</h3>
       <p>Save Molecule With This Name:</p>
       <input id='molecule-name-input' type='text'></input>
-      <div class='button' id='save-button'>Save</button>
-    </div>
-    <div id='load-modal'>
-      <h3>LOAD</h3>
-      <p>Click a molecule you would like to load</p>
-      <ul>
-        <% @molecules.each do |m| %>
-          <li id='<%= m.id %>'><%= m.name %></li>
-        <% end %>
-      </ul>
+      <div class='button' id='save-button'>Save</div>
+      <div id='load-modal'>
+        <h3>LOAD</h3>
+        <p>Click a molecule you would like to load</p>
+        <ul>
+          <% @molecules.each do |m| %>
+            <li id='<%= m.id %>'><%= m.name %></li>
+          <% end %>
+        </ul>
+      </div>
     </div>
   </div>
+
+  <div id='instructions-modal' style='display:none;' class='modal'>
+    <span class='close'>X</span>
+    <p>
+      <h3>Instructions</h3>
+      <h4>Adding pieces</h4>
+      Click on a piece to select it.<br>
+      Click into the canvas with an atom to drop the first piece.<br>
+      After that, atoms go onto the ends of bonds, and bonds go onto atom holes.
+      (The area will turn pink if it's a valid placement!)<br>
+      <br>
+      <h4>Rotation</h4>
+      Rotate a single bond clockwise by clicking on it (the cursor will change).
+      Hold shift to rotate counter-clockwise.<br>
+      <br>
+      <h4>Multiple Bonds</h4>
+      Turn a single bond into a double bond or a double bond into a triple
+      bond by clicking on it while holding a bond.
+      The cursor will change to indicate a valid upgrade.<br>
+      <h3>Hotkeys</h3>
+      Bonds:<br>
+      F<br>
+      Atoms:<br>
+      QWE<br>
+      ASD<br>
+      ZXC<br>
+      <br>
+      Hold shift while holding a piece to place multiple pieces.<br>
+      <br>
+    </p>
+  </div>
+
 </body>
 </html>
