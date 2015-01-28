@@ -150,10 +150,11 @@ function addCursorEvents() {
 
   $('#undo').click(function() {
     App.scene.remove(App.objects[0]);
-    App.scene = App.states[App.states.length - 1];
-    App.states.pop();
-    // if the last thing you did was clear the screen, bring the instructions back
-    if (!App.objects.length) App.instructions = App.tempInstructions;
+    if (App.states.length) {
+      App.scene = App.states[App.states.length - 1];
+      App.states.pop();
+    }
+    if (App.instructions.length) App.instructions.pop();
 
     App.bonds = [];
     App.objects = [];
