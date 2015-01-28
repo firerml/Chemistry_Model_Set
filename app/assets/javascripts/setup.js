@@ -47,8 +47,7 @@ $(function() {
 
   App.projector = new THREE.Projector();
   App.scene = new THREE.Scene();
-  App.renderer = new THREE.WebGLRenderer();
-  App.renderer.setClearColor('pink', 1);
+  App.renderer = new THREE.WebGLRenderer({ alpha: true });
   App.renderer.setSize(width, height);
   $('#threejs').append(App.renderer.domElement);
 
