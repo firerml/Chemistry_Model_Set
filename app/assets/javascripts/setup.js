@@ -213,4 +213,5 @@ function clearScreen() {
   App.atoms = [];
   App.atomCount = 0;
   App.bondCount = 0;
+  App.instructions = [];
 }
