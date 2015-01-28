@@ -107,7 +107,38 @@ canvas {
   background: red;
 }
 
+#load {
+  background: purple;
+}
+
 .button {
   border-radius: 10px;
   padding: 1% 0;
+}
+
+#save-button {
+  background: green;
+  display: inline-block;
+  padding: 5px;
+}
+
+#modal {
+  padding: 10px;
+  display: none;
+  background: lightgray;
+  border: solid 2px gray;
+  border-radius: 10px;
+  position: absolute;
+  top: 10%;
+  left: 20%;
+}
+
+#close {
+  font-family: sans-serif;
+  float: right;
+  color: red;
+}
+
+li:hover {
+  color: orange;
 }

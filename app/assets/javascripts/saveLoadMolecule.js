@@ -1,5 +1,5 @@
-function loadMolecule(instructions) {
-  instructions = instructions.slice();
+function loadMolecule(molecule) {
+  var instructions = JSON.parse(molecule.instructions);
   App.instructions = [];
   clearScreen();
   for (var i = 0; i < instructions.length; i++) {
@@ -14,7 +14,7 @@ function loadPiece(step) {
       var bondHead;
       var cursorID = step[1];
       var bondID = step[2];
-      if (bondID !== undefined) bondHead = App.bonds[bondID].children[0];
+      if (bondID !== null) bondHead = App.bonds[bondID].children[0];
       addAtom(cursorID, bondHead);
       break;
     case 'add bond':
@@ -34,6 +34,18 @@ function loadPiece(step) {
   }
 }
 
-function saveMolecule() {
+function saveMolecule(name) {
   var instructionsJSON = JSON.stringify(App.instructions);
+
+  var newMolecule = {
+    molecule: {
+      name: name,
+      instructions: instructionsJSON
+    }
+  };
+
+  $.post('/molecules', newMolecule, function(res) {
+    console.log('Save successful');
+    $('ul').append($('<li>').attr('id',res.id).text(res.name));
+  });
 }

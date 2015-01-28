@@ -110,6 +110,39 @@ function addCursorEvents() {
 
   $('#clear').click(clearScreen);
 
+  $('#load').click(function() {
+    $('#modal').fadeIn(250);
+  });
+
+  $('#close').click(function() {
+    $('#modal').fadeOut(250);
+  });
+
+  $('li').click(function() {
+    var molID = $(this).attr('id');
+    $('#modal').fadeOut(250, function() {
+      $.get('/molecules/' + molID, loadMolecule);
+    });
+  });
+
+  $('input').click(function() {
+    App.controls.enabled = false;
+    $('input').focus();
+  });
+
+  $('input').focusout(function() {
+    App.controls.enabled = true;
+  });
+
+  $('#save-button').click(function() {
+    var name = $('#molecule-name-input').val();
+    if (name) {
+      $('#modal').fadeOut(250, function() {
+        saveMolecule(name);
+      });
+    }
+  });
+
   $('#undo').click(function() {
     App.scene.remove(App.objects[0]);
     App.scene = App.states[App.states.length - 1];
