@@ -89,21 +89,17 @@ function onClick(event) {
 
   // if this is the first object
   if (App.objects.length === 0 && $('html').attr('class') === 'atom-cursor') {
-    var newAtom = addAtom();
-    App.scene.add(newAtom.mesh);
+    addAtom($('html').attr('id'));
   }
   // If clickedObj is a bondHead
   else if (App.highlighted && App.highlighted.object === 'bondHead'
   && clickedObj === App.highlighted.bondHead) {
-    var newAtom = addAtom(clickedObj);
-    changeHoleColor(newAtom.mesh.userData.myColor, newAtom.mesh);
-    newAtom.mesh.userData.fullHoles.push(0);
-    clickedObj.material.color.setHex(0xD3D3D3);
+    addAtom($('html').attr('id'), clickedObj);
   }
   // If clickedObj is a hole face
   else if (App.highlighted && clickedObj === App.highlighted.face.object
   && faceIndex === App.highlighted.face.faceIndex) {
-    addSingleBond();
+    addSingleBond(App.highlighted.atom,App.highlighted.hole);
   }
   // If the cursor is 'rotate'
   else if ($('html').attr('id') === 'rotate') {
@@ -120,7 +116,10 @@ function onClick(event) {
   }
   // If the cursor is 'upgrade bond'
   else if ($('html').attr('id') === 'upgrade-bond') {
+    // the clicked bond body's parent is the bond group, whose first
+    // child is the bond head, whose only child would be the child atom
     var childAtom = clickedObj.parent.children[0].children[0];
+    // the bond group's parent is the parent atom
     var parentAtom = clickedObj.parent.parent;
     upgradeBond(clickedObj.parent,childAtom,parentAtom);
   }
@@ -134,19 +133,22 @@ function onMouseUp() {
   App.clicked = false;
 }
 
-function addSingleBond() {
+function addSingleBond(atom,holeNum) {
+  App.instructions.push(['add bond',atom.userData.id,holeNum]);
   App.states.push(App.scene.clone());
-  var atom = App.highlighted.atom;
-  var holeNum = App.highlighted.hole;
   var bond = new SingleBond(atom, holeNum);
-  changeHoleColor(atom.userData.myColor);
+  changeHoleColor(atom.userData.myColor,atom,atom.holeNum);
   atom.userData.fullHoles.push(holeNum);
 }
 
-function addAtom(bond) {
+function addAtom(cursorID, bondHead) {
+  var bondID;
+  if (bondHead) bondID = bondHead.parent.userData.id;
+  App.instructions.push(['add atom',cursorID,bondID]);
+
   App.states.push(App.scene.clone());
   var holes, color;
-  switch ($('html').attr('id')) {
+  switch (cursorID) {
     case 'black':
       holes = 4;
       color = 0x4F4F4F;
@@ -188,11 +190,10 @@ function addAtom(bond) {
       color = 0xc2c2c2;
       break;
   }
-  var newAtom = new Atom(holes,color,bond);
-  if (bond) {
-    var bondRotation = bond.rotation.toArray();
-    newAtom.mesh.rotation.fromArray(bondRotation);
-    newAtom.mesh.rotateX(180*Math.PI/180);
+  var newAtom = new Atom(holes,color,bondHead);
+  if (!bondHead) App.scene.add(newAtom.mesh);
+  else {
+    bondHead.add(newAtom.mesh);
   }
   return newAtom;
 }

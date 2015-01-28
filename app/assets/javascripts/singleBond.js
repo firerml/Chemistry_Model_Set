@@ -14,6 +14,7 @@ var SingleBond = function(atom, holeNum) {
   // within atom objects, so I'm storing a unique ID. Can't use the uuid because
   // that changes when a three.js object is cloned.
   atom.userData.bondIDs.push(this.bond.userData.id);
+  atom.userData.bondChildrenIDs.push(this.bond.userData.id);
   this.bond.userData.holes = {};
   this.bond.userData.holes[atom.uuid] = holeNum;
   this.bondBody.userData.pieceName = 'single bond body'

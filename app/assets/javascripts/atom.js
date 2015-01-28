@@ -37,15 +37,25 @@ var Atom = function(holes, color, bondHead) {
   this.mesh.userData.holeCount = holes;
   this.mesh.userData.shape = shape;
   this.mesh.userData.bondIDs = [];
-  if (bondHead) {
-    bondHead.add(this.mesh);
-    this.mesh.userData.bondIDs.push(bondHead.parent.userData.id);
-    bondHead.parent.userData.holes[this.mesh.uuid] = 0;
-  }
+  this.mesh.userData.bondChildrenIDs = [];
+
   this.mesh.userData.id = App.atomCount;
   App.atomCount++;
   App.atoms.push(this.mesh);
   App.objects.push(this.mesh);
+
+  if (bondHead) {
+    this.mesh.userData.bondIDs.push(bondHead.parent.userData.id);
+    bondHead.parent.userData.holes[this.mesh.uuid] = 0;
+
+    var bondRotation = bondHead.rotation.toArray();
+    this.mesh.rotation.fromArray(bondRotation);
+    this.mesh.rotateX(180*Math.PI/180);
+
+    changeHoleColor(this.mesh.userData.myColor, this.mesh);
+    this.mesh.userData.fullHoles.push(0);
+    bondHead.material.color.setHex(0xD3D3D3);
+  }
 }
 
 function colorFaces(atom,color,shape) {

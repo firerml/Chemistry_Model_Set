@@ -14,6 +14,7 @@ $(function() {
   App.bonds = [];
   App.atomCount = 0;
   App.atoms = [];
+  App.instructions = [];
   App.holeFaces = [
     // tetrahedral: 0,1,2,3
     [3250,3297],
@@ -107,12 +108,7 @@ function addCursorEvents() {
   }
   addKeyboardEvents(ids);
 
-  $('#clear').click(function() {
-    App.states.push(App.scene.clone());
-    App.scene.remove(App.objects[0]);
-    App.objects = [];
-    App.bonds = [];
-  });
+  $('#clear').click(clearScreen);
 
   $('#undo').click(function() {
     App.scene.remove(App.objects[0]);
@@ -174,4 +170,14 @@ function getMouseObject() {
   var intersects = raycaster.intersectObjects(App.objects);
   // Return the object closest to the App.camera
   return intersects[0] ? intersects[0] : null;
+}
+
+function clearScreen() {
+  App.states.push(App.scene.clone());
+  App.scene.remove(App.objects[0]);
+  App.objects = [];
+  App.bonds = [];
+  App.atoms = [];
+  App.atomCount = 0;
+  App.bondCount = 0;
 }

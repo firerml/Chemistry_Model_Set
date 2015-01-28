@@ -1,4 +1,5 @@
 function upgradeBond(bond,childAtom,parentAtom) {
+  App.instructions.push(['upgrade bond',bond.userData.id,childAtom.userData.id,parentAtom.userData.id]);
   App.states.push(App.scene.clone());
   changeAtomGeom(childAtom);
   changeAtomGeom(parentAtom, true);
