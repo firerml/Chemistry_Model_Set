@@ -3,7 +3,7 @@ App.geometries = {};
 
 $(function() {
   // basic setup
-  width = window.innerWidth*0.8;
+  width = window.innerWidth;
   height = window.innerHeight;
   $('#container').css('height',window.innerHeight);
   App.clicked = false;
