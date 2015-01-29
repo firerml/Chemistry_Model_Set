@@ -137,7 +137,7 @@ function addSingleBond(atom,holeNum) {
   App.instructions.push(['add bond',atom.userData.id,holeNum]);
   App.states.push(App.scene.clone());
   var bond = new SingleBond(atom, holeNum);
-  changeHoleColor(atom.userData.myColor,atom,atom.holeNum);
+  changeHoleColor(atom.userData.myColor,atom,holeNum);
   atom.userData.fullHoles.push(holeNum);
 }
 
