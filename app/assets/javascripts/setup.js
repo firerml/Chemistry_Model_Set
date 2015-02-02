@@ -118,7 +118,6 @@ function addCursorEvents() {
   });
 
   $('.close').click(function() {
-    console.log($(this).closest('.modal'));
     $(this).closest('.modal').fadeOut(250);
   });
 
@@ -158,21 +157,27 @@ function addCursorEvents() {
 
     App.bonds = [];
     App.objects = [];
+    App.bondCount = 0;
+    App.atomCount = 0;
     var updateObjectsList = function(object) {
       // No bond groups, just the bond pieces.
       if (object.type !== 'Object3D') App.objects.push(object);
       if (object.userData.pieceName === 'atom') {
+        App.atomCount++;
         colorFaces(object,object.userData.myColor,object.userData.shape);
       }
       else if (object.userData.pieceName === 'bond head') {
+        App.bondCount++;
         App.bonds.push(object.parent);
       }
+      // If this object has children, send them through this function to add them
       if (object.children.length) {
         for (var i = 0; i < object.children.length; i++) {
           updateObjectsList(object.children[i]);
         }
       }
     }
+    // indices 0-7 are lights and should be ignored
     if (App.scene.children[8]) updateObjectsList(App.scene.children[8]);
   });
 }

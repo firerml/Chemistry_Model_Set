@@ -10,7 +10,6 @@ function loadMolecule(molecule) {
 function loadPiece(step) {
   switch (step[0]) {
     case 'add atom':
-      console.log('adding an atom');
       var bondHead;
       var cursorID = step[1];
       var bondID = step[2];
@@ -18,14 +17,12 @@ function loadPiece(step) {
       addAtom(cursorID, bondHead);
       break;
     case 'add bond':
-      console.log('adding a bond');
       var atomID = step[1];
       var atom = App.atoms[atomID];
       var holeNum = step[2];
       addSingleBond(atom,holeNum);
       break;
     case 'upgrade bond':
-      console.log('upgrading bond');
       var bond = App.bonds[step[1]];
       var childAtom = App.atoms[step[2]];
       var parentAtom = App.atoms[step[3]];
@@ -45,7 +42,6 @@ function saveMolecule(name) {
   };
 
   $.post('/molecules', newMolecule, function(res) {
-    console.log('Save successful');
     $('ul').append($('<li>').attr('id',res.id).text(res.name));
   });
 }
