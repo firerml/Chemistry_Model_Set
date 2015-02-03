@@ -9,66 +9,92 @@
 <body>
   <%= image_tag('logo.png', {id: 'logo'}) %>
   <div id='threejs'></div>
-  <div id='toolbar'>
+  <div id='piece-container' class='toolbar'>
+    <h3>Click (don't drag)!</h3>
+    <table>
+      <tr>
+        <td class='piece-info'>
+          <%= image_tag('black.png', {class: 'piece', id: 'black-big'}) %>
+        </td>
+        <td class='piece-info'>
+          <%= image_tag('white.png', {class: 'piece', id: 'white-big'}) %>
+        </td>
+        <td class='piece-info'>
+          <%= image_tag('red.png', {class: 'piece', id: 'red-big'}) %>
+        </td>
+      </tr>
+      <tr>
+        <td>C</td>
+        <td>H</td>
+        <td>O</td>
+      </tr>
+      <tr>
+        <td><div class='hotkeys'>q</div></td>
+        <td><div class='hotkeys'>w</div></td>
+        <td><div class='hotkeys'>e</div></td>
+      </tr>
+    </table>
+    <table class='raised-row'>
+      <tr>
+        <td class='piece-info'>
+          <%= image_tag('blue3.png', {class: 'piece', id: 'blue3-big'}) %>
+        </td>
+        <td class='piece-info'>
+          <%= image_tag('blue4.png', {class: 'piece', id: 'blue4-big'}) %>
+        </td>
+        <td class='piece-info'>
+          <%= image_tag('yellow4.png', {class: 'piece', id: 'yellow4-big'}) %>
+        </td>
+      </tr>
+        <td>N3</td>
+        <td>N4</td>
+        <td>S4</td>
+      </tr>
+      <tr>
+        <td><div class='hotkeys'>a</div></td>
+        <td><div class='hotkeys'>s</div></td>
+        <td><div class='hotkeys'>d</div></td>
+      </tr>
+    </table>
+    <table class='raised-row'>
+      <tr>
+        <!-- <td class='piece-info'>
+          <%= image_tag('yellow6.png', {class: 'piece', id: 'yellow6-big'}) %>
+        </td> -->
+        <td class='piece-info'>
+          <%= image_tag('green.png', {class: 'piece', id: 'green-big'}) %>
+        </td>
+        <td class='piece-info'>
+          <%= image_tag('purple.png', {class: 'piece', id: 'purple-big'}) %>
+        </td>
+        <td class='piece-info'>
+          <%= image_tag('gray.png', {class: 'piece', id: 'gray-big'}) %>
+        </td>
+      </tr>
+      <tr>
+        <!-- <td>S (6)</td> -->
+        <td>Halogen</td>
+        <td>P</td>
+        <td>Metal</td>
+      </tr>
+      <tr>
+        <td><div class='hotkeys'>z</div></td>
+        <td><div class='hotkeys'>x</div></td>
+        <td><div class='hotkeys'>c</div></td>
+      </tr>
+    </table>
+    <div class='raised-row'>
+      <%= image_tag('singlebond.png', {class: 'piece', id: 'single-bond-big'}) %>
+      <p class='under-bond'>Add/Upgrade Bond</p>
+      <div class='hotkeys under-bond'>f</div>
+    </div>
+  </div>
+
+  <div id='buttons' class='toolbar'>
     <div id='instructions' class='button'>
       <p>Instructions</p>
     </div>
-    <div id='piece-container'>
-      <table>
-        <tr>
-          <td class='piece-info'>
-            <%= image_tag('black.png', {class: 'piece', id: 'black-big'}) %>
-          </td>
-          <td class='piece-info'>
-            <%= image_tag('white.png', {class: 'piece', id: 'white-big'}) %>
-          </td>
-          <td class='piece-info'>
-            <%= image_tag('red.png', {class: 'piece', id: 'red-big'}) %>
-          </td>
-          <td class='piece-info'>
-            <%= image_tag('blue3.png', {class: 'piece', id: 'blue3-big'}) %>
-          </td>
-          <td class='piece-info'>
-            <%= image_tag('blue4.png', {class: 'piece', id: 'blue4-big'}) %>
-          </td>
-        </tr>
-        <tr>
-          <td>C</td>
-          <td>H</td>
-          <td>O</td>
-          <td>N (3)</td>
-          <td>N (4)</td>
-        </tr>
-        <tr>
-          <td class='piece-info'>
-            <%= image_tag('yellow4.png', {class: 'piece', id: 'yellow4-big'}) %>
-          </td>
-          <!-- <td class='piece-info'>
-            <%= image_tag('yellow6.png', {class: 'piece', id: 'yellow6-big'}) %>
-          </td> -->
-          <td class='piece-info'>
-            <%= image_tag('green.png', {class: 'piece', id: 'green-big'}) %>
-          </td>
-          <td class='piece-info'>
-            <%= image_tag('purple.png', {class: 'piece', id: 'purple-big'}) %>
-          </td>
-          <td class='piece-info'>
-            <%= image_tag('gray.png', {class: 'piece', id: 'gray-big'}) %>
-          </td>
-        </tr>
-        <tr>
-          <td>S (4)</td>
-          <!-- <td>S (6)</td> -->
-          <td>Halogen</td>
-          <td>P</td>
-          <td>Metal</td>
-        </tr>
-      </table>
-      <div>
-          <%= image_tag('singlebond.png', {class: 'piece', id: 'single-bond-big'}) %>
-        <p>Add Bond/Raise Bond Level</p>
-      </div>
-    </div>
+
     <div id='undo' class='button'>
       <p>Undo</p>
     </div>
@@ -80,6 +106,7 @@
       <p>Save/Load Molecule</p>
     </div>
   </div>
+
 
   <div id='load-save-modal' style='display:none;' class='modal'>
     <span class='close'>X</span>
@@ -102,39 +129,27 @@
 
   <div id='instructions-modal' style='display:none;' class='modal'>
     <span class='close'>X</span>
-    <p>
-      <h2>Instructions</h2>
-      <h1>Easy Chem</h1>
-      A virtual ball-and-stick chemistry model-building kit. 
-      <h4>Camera</h4>
-      Left click to rotate, scroll wheel to zoom, and right click to pan.<br>
-      <br>
-      <h4>Adding pieces</h4>
-      Click on a piece to select it.<br>
-      Click into the canvas with an atom to drop the first piece.<br>
-      After that, atoms go onto the ends of bonds, and bonds go onto atom holes.
-      (The area will turn pink if it's a valid placement!)<br>
-      <br>
-      <h4>Rotating Bonds</h4>
-      Rotate a single bond clockwise by clicking on it (the cursor will change).
-      Hold shift to rotate counter-clockwise.<br>
-      <br>
-      <h4>Multiple Bonds</h4>
-      Turn a single bond into a double bond or a double bond into a triple
-      bond by clicking on it while holding a bond.
-      The cursor will change to indicate a valid upgrade.<br>
-      <br>
-      <h3>Hotkeys</h3>
-      Bonds:<br>
-      F<br>
-      Atoms:<br>
-      QWE<br>
-      ASD<br>
-      ZXC<br>
-      <br>
-      Hold shift while holding a piece to place multiple pieces.<br>
-      <br>
-    </p>
+    <h1>Easy Chem</h1>
+    A virtual ball-and-stick chemistry model-building kit.<br>
+    <br>
+    <h4>Camera</h4>
+    Left click to rotate, scroll wheel to zoom, and right click to pan.<br>
+    <br>
+    <h4>Adding pieces</h4>
+    Click on a piece to select it.<br>
+    Click into the canvas with an atom to drop the first piece.<br>
+    After that, atoms go onto the ends of bonds, and bonds go onto atom holes.
+    (The area will turn pink if it's a valid placement!)<br>
+    <br>
+    <h4>Multiple Bonds</h4>
+    Turn a single bond into a double bond or a double bond into a triple
+    bond by clicking on it while holding a bond.
+    The cursor will change to indicate a valid upgrade.<br>
+    <br>
+    <h4>Tips</h4>
+    Rotate a single bond clockwise by clicking on it (the cursor will change).<br>
+    Hold shift to rotate counter-clockwise.<br>
+    Hold shift while holding a piece to place multiple pieces.<br>
   </div>
   <h3 id='author'>Created by Mike Firer</h3>
   <div id='social'>
