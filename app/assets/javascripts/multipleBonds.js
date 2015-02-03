@@ -48,12 +48,10 @@ function changeAtomGeom(atom, isParentAtom) {
       atom.userData.shape = 'linear';
       atom.userData.holeCount = 2;
       if (!isParentAtom) realignBond(bonds[0],0,0,0);
-      // it doesn't matter what this number is,
-      // since the first hole is never empty.
-      atom.userData.fullHoles.push(-1);
+      atom.userData.fullHoles.push(13);
       if (bonds.length > 1) {
         realignBond(bonds[1],180,0,0);
-        atom.userData.fullHoles.push(13);
+        atom.userData.fullHoles.push(14);
       }
       break;
       case 'bent':

@@ -34,7 +34,8 @@ $(function() {
     [4678,4697],
     [3585,3632],
     [718,737],
-    // linear: 13 (linear's first hole always starts full)
+    // linear: 13,14
+    [4448,4495],
     [3200,3247]
     // octahedral:
     // [4498,4515],

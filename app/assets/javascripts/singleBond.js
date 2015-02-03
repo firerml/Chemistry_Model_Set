@@ -45,6 +45,8 @@ var SingleBond = function(atom, holeNum) {
     case 12:
       xRot = 120;
       break;
+    case 14:
+      xRot = 180;
     }
 
   if (yRot) this.bond.rotateY(yRot*Math.PI/180);

@@ -102,8 +102,7 @@ function colorFaces(atom,color,shape) {
       makeAllHoles([10,12]);
       break;
     case 'linear':
-      // first hole will never be empty, since you cannot start with a linear atom
-      makeAllHoles([13,13]);
+      makeAllHoles([13,14]);
     }
     atomGeom.colorsNeedUpdate = true;
   }
