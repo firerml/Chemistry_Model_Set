@@ -3,8 +3,8 @@ App.geometries = {};
 
 $(function() {
   // basic setup
-  width = window.innerWidth;
-  height = window.innerHeight;
+  window.innerWidth = window.innerWidth;
+  window.innerHeight = window.innerHeight;
   $('#container').css('height',window.innerHeight);
   App.clicked = false;
   App.objects = [];
@@ -48,10 +48,10 @@ $(function() {
   App.projector = new THREE.Projector();
   App.scene = new THREE.Scene();
   App.renderer = new THREE.WebGLRenderer({ alpha: true });
-  App.renderer.setSize(width, height);
+  App.renderer.setSize(window.innerWidth, window.innerHeight);
   $('#threejs').append(App.renderer.domElement);
 
-  App.camera = new THREE.PerspectiveCamera(70,width/height,0.1,1000);
+  App.camera = new THREE.PerspectiveCamera(70,window.innerWidth/window.innerHeight,0.1,1000);
   App.camera.position.set(75,75,60);
   App.controls = new THREE.TrackballControls(App.camera);
   App.JSONLoader = new THREE.JSONLoader();
@@ -63,6 +63,7 @@ $(function() {
   $('html').on('keydown', function(event) {
     if (event.shiftKey) $('html').trigger('mousemove');
   });
+  window.addEventListener('resize',onWindowResize,false);
 
   addCursorEvents();
 
@@ -205,9 +206,19 @@ function render() {
   App.renderer.render(App.scene, App.camera);
 }
 
+function onWindowResize() {
+  var width = $(window).width();
+  var height = $(window).height();
+  $('#threejs').width(width);
+  $('#threejs').height(height);
+  App.camera.aspect = width/height;
+  App.camera.updateProjectionMatrix();
+  App.renderer.setSize(width,height);
+}
+
 function getMouseObject() {
-  var mouse3D = new THREE.Vector3( (event.clientX/width) * 2 - 1,
-  -1*(event.clientY/height) * 2 + 1,
+  var mouse3D = new THREE.Vector3( (event.clientX/window.innerWidth) * 2 - 1,
+  -1*(event.clientY/window.innerHeight) * 2 + 1,
   0.5 );
   mouse3D.unproject(App.camera);
   mouse3D.sub(App.camera.position);
