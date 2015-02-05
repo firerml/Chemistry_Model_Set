@@ -66,14 +66,14 @@ $(function() {
   });
   window.addEventListener('resize',onWindowResize,false);
 
-  addCursorEvents();
+  addDOMEvents();
 
   setLights(App.scene);
 
   render();
 });
 
-function addCursorEvents() {
+function addDOMEvents() {
   var addClickEvent = function(id) {
     $('#' + id + '-big').on('click',function() {
       $('html').attr('id',id);
@@ -123,7 +123,7 @@ function addCursorEvents() {
     $(this).closest('.modal').fadeOut(250);
   });
 
-  $('li').click(function() {
+  $('body').on('click','li',function() {
     var molID = $(this).attr('id');
     $('#load-save-modal').fadeOut(250, function() {
       $.get('/molecules/' + molID, loadMolecule);
