@@ -94,7 +94,7 @@ function addDOMEvents() {
 
     }
     $('html').keydown(function(event) {
-      if (keyIDs[event.keyCode.toString()]) {
+      if (keyIDs[event.keyCode.toString()] && App.controls.enabled) {
         $('html').attr('id',keyIDs[event.keyCode]);
         if (keyIDs[event.keyCode] !== 'single-bond') $('html').addClass('atom-cursor');
         $('html').trigger('mousemove');
@@ -113,37 +113,41 @@ function addDOMEvents() {
 
   $('#load').click(function() {
     $('#load-save-modal').fadeIn(250);
+    App.controls.enabled = false;
   });
 
   $('#instructions').click(function() {
     $('#instructions-modal').fadeIn(250);
+    App.controls.enabled = false;
   });
 
   $('.close').click(function() {
     $(this).closest('.modal').fadeOut(250);
+    App.controls.enabled = true;
   });
 
   $('body').on('click','li',function() {
     var molID = $(this).attr('id');
     $('#load-save-modal').fadeOut(250, function() {
       $.get('/molecules/' + molID, loadMolecule);
+      App.controls.enabled = true;
     });
   });
 
-  $('input').click(function() {
-    App.controls.enabled = false;
-    $('input').focus();
-  });
+  // $('input').click(function() {
+  //   $('input').focus();
+  // });
 
-  $('input').focusout(function() {
-    App.controls.enabled = true;
-  });
+  // $('input').focusout(function() {
+  //   App.controls.enabled = true;
+  // });
 
   $('#save-button').click(function() {
     var name = $('#molecule-name-input').val();
     if (name) {
       $('#load-save-modal').fadeOut(250, function() {
         saveMolecule(name);
+        App.controls.enabled = true;
       });
     }
   });
