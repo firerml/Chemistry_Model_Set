@@ -28,10 +28,20 @@ function loadPiece(step) {
       var parentAtom = App.atoms[step[3]];
       upgradeBond(bond,childAtom,parentAtom);
       break;
+    case 'rotate bond':
+      App.bonds[step[1]].rotation.fromArray(step[2]);
+      break;
   }
 }
 
 function saveMolecule(name) {
+  // save the rotations of bonds
+  for (var i = 0; i < App.bonds.length; i++) {
+    if (App.bonds[i].children[1].userData.pieceName === 'single bond body') {
+      App.instructions.push(['rotate bond',i,App.bonds[i].rotation.toArray()]);
+    }
+  }
+
   var instructionsJSON = JSON.stringify(App.instructions);
 
   var newMolecule = {

@@ -103,6 +103,7 @@ function colorFaces(atom,color,shape) {
       break;
     case 'linear':
       makeAllHoles([13,14]);
-    }
-    atomGeom.colorsNeedUpdate = true;
+      break;
   }
+  atomGeom.colorsNeedUpdate = true;
+}

@@ -195,6 +195,8 @@ function addAtom(cursorID, bondHead) {
   else {
     bondHead.add(newAtom.mesh);
   }
+  // The oxygen atom always seemed to be facing inconveniently away.
+  if (newAtom.mesh.userData.shape === 'bent') newAtom.mesh.rotateY(Math.PI);
   return newAtom;
 }
 
