@@ -124,6 +124,7 @@ function addDOMEvents() {
   $('.close').click(function() {
     $(this).closest('.modal').fadeOut(250);
     App.controls.enabled = true;
+    $('#molecule-name-input').val('');
   });
 
   $('body').on('click','li',function() {
@@ -131,6 +132,7 @@ function addDOMEvents() {
     $('#load-save-modal').fadeOut(250, function() {
       $.get('/molecules/' + molID, loadMolecule);
       App.controls.enabled = true;
+      $('#molecule-name-input').val('');
     });
   });
 
@@ -148,6 +150,7 @@ function addDOMEvents() {
       $('#load-save-modal').fadeOut(250, function() {
         saveMolecule(name);
         App.controls.enabled = true;
+        $('#molecule-name-input').val('');
       });
     }
   });
