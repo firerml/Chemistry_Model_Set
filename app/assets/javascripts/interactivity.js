@@ -142,7 +142,7 @@ function addSingleBond(atom,holeNum) {
 }
 
 function addAtom(cursorID, bondHead) {
-  var bondID;
+  var bondID = null;
   if (bondHead) bondID = bondHead.parent.userData.id;
   App.instructions.push(['add atom',cursorID,bondID]);
 

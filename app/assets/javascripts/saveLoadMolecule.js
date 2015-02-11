@@ -13,7 +13,7 @@ function loadPiece(step) {
       var bondHead;
       var cursorID = step[1];
       var bondID = step[2];
-      if (bondID !== null) bondHead = App.bonds[bondID].children[0];
+      if (bondID || bondID == 0) bondHead = App.bonds[bondID].children[0];
       addAtom(cursorID, bondHead);
       break;
     case 'add bond':
@@ -29,7 +29,7 @@ function loadPiece(step) {
       upgradeBond(bond,childAtom,parentAtom);
       break;
     case 'rotate bond':
-      App.bonds[step[1]].rotation.fromArray(step[2]);
+      // App.bonds[step[1]].rotation.fromArray(step[2]);
       break;
   }
 }
