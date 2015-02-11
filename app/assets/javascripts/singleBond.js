@@ -6,6 +6,7 @@ var SingleBond = function(atom, holeNum) {
   this.bondBody = new THREE.Mesh( new THREE.CylinderGeometry(2, 2, 40, 32), new THREE.MeshPhongMaterial({color: 0xD3D3D3}));
   this.bondHead = new THREE.Mesh( new THREE.CylinderGeometry(2, 2, 4, 32), new THREE.MeshPhongMaterial({color: 0xD3D3D3}));
   this.bond = new THREE.Object3D();
+  this.bond.userData.rotation = 0;
   this.bond.userData.id = App.bondCount;
   App.bondCount++;
   App.bonds.push(this.bond);

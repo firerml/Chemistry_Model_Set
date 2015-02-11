@@ -106,12 +106,14 @@ function onClick(event) {
     // clickedObj.object.parent.rotateY(120*Math.PI/180);
     App.bondRotationTimer = setInterval(function() {
       clickedObj.parent.rotateY(2*Math.PI/180);
+      clickedObj.parent.userData.rotation += 2*Math.PI/180
     }, 25);
   }
   else if ($('html').attr('id') === 'rotateL') {
     // clickedObj.object.parent.rotateY(120*Math.PI/180);
     App.bondRotationTimer = setInterval(function() {
       clickedObj.parent.rotateY(-2*Math.PI/180);
+      clickedObj.parent.userData.rotation += -2*Math.PI/180
     }, 25);
   }
   // If the cursor is 'upgrade bond'
