@@ -30,7 +30,7 @@ function changeAtomGeom(atom, isChildAtom) {
         // pull it back to the middle of the atom
         bond.translateY(-16);
         // re-rotate it
-        bond.rotation.set(bondsRot[i].rot*Math.PI/180,0,0);
+        bond.rotation.set(bondRots[i].rot*Math.PI/180,0,0);
         // push it back out into its new location
         bond.translateY(16);
       }
@@ -75,7 +75,7 @@ function changeAtomGeom(atom, isChildAtom) {
 }
 
 function changeBondGeom(bond) {
-  upgrade(newBondType,cylRad) {
+  function upgrade(newBondType,cylRad) {
     bond.children[1].userData.pieceName = newBondType;
     var cyl1 = new THREE.CylinderGeometry(cylRad, cylRad, 40, 32);
     var cyl2 = cyl1.clone();
